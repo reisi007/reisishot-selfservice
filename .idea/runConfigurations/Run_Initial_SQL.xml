@@ -1,0 +1,8 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Run Initial SQL" type="DatabaseScript" editBeforeRun="true">
+    <script-file value="$PROJECT_DIR$/sql/001_Initial.sql" />
+    <script-mode>FILE</script-mode>
+    <data-source id="eeda9123-055d-46e3-833c-8ed843e671e6" namespace="schema/&quot;selfservice&quot;" />
+    <method v="2" />
+  </configuration>
+</component>
