@@ -9,7 +9,7 @@ DROP TABLE IF EXISTS contract_data;
 -- Stores the important data of the contracts
 CREATE TABLE contract_data
 (
-    id         BIGINT PRIMARY KEY AUTO_INCREMENT,
+    id         BIGINT       NOT NULL PRIMARY KEY AUTO_INCREMENT,
     markdown   TEXT         NOT NULL, -- Markdown of the contract
     hash_algo  VARCHAR(64)  NOT NULL, -- Used algorithm for hashing
     hash_value VARCHAR(512) NOT NULL  -- Hash value for field markdown as calculated by hash_algo
@@ -18,9 +18,12 @@ CREATE TABLE contract_data
 -- Stores the access "secret"
 CREATE TABLE contract_access
 (
-    access_key  TEXT(36) DEFAULT UUID(),
-    email       VARCHAR(512),
-    contract_id BIGINT,
+    access_key  TEXT(36)     NOT NULL DEFAULT UUID(),
+    email       VARCHAR(512) NOT NULL,
+    contract_id BIGINT       NOT NULL,
+    firstname   VARCHAR(200) NOT NULL,
+    lastname    VARCHAR(200) NOT NULL,
+    birthday    DATE         NOT NULL,
     PRIMARY KEY (access_key(36)),
     UNIQUE (email, contract_id),
     FOREIGN KEY (contract_id) REFERENCES contract_data (id)
@@ -30,9 +33,9 @@ CREATE TABLE contract_access
 -- Stores all changes made by the user e.g SIGN "events"
 CREATE TABLE contract_log
 (
-    contract_id BIGINT,
-    email       VARCHAR(512),
-    timestamp   DATETIME DEFAULT CURRENT_TIMESTAMP,
+    contract_id BIGINT        NOT NULL,
+    email       VARCHAR(512)  NOT NULL,
+    timestamp   DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
     log_type    TEXT(6)       NOT NULL,
     log_entry   VARCHAR(2048) NOT NULL,
 
