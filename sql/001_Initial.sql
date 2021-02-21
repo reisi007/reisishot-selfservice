@@ -1,4 +1,5 @@
 -- Drop Tables if exists
+DROP TABLE IF EXISTS contract_permissions;
 DROP TABLE IF EXISTS contract_log;
 DROP TABLE IF EXISTS contract_access;
 DROP TABLE IF EXISTS contract_data;
@@ -42,3 +43,11 @@ CREATE TABLE contract_log
     PRIMARY KEY (email, contract_id, timestamp),
     FOREIGN KEY (contract_id) REFERENCES contract_data (id)
 );
+
+-- Access permissions
+CREATE TABLE contract_permissions
+(
+    user VARCHAR(255) PRIMARY KEY,
+    salt TEXT(36)     NOT NULL,
+    pwd  VARCHAR(255) NOT NULL
+)
