@@ -8,3 +8,9 @@ function list_dir(string $path)
         )
     );
 }
+
+function read_body_json(): array
+{
+    $inputJSON = file_get_contents('php://input');
+    return json_decode($inputJSON, true);
+}

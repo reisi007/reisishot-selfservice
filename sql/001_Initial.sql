@@ -10,11 +10,11 @@ DROP TABLE IF EXISTS contract_data;
 -- Stores the important data of the contracts
 CREATE TABLE contract_data
 (
-    id             BIGINT       NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    markdown       TEXT         NOT NULL, -- Markdown of the contract
-    hash_algo      VARCHAR(64)  NOT NULL, -- Used algorithm for hashing
-    hash_value     VARCHAR(512) NOT NULL, -- Hash value for field markdown as calculated by hash_algo
-    signable_until DATE         NOT NULL  -- Datum + Uhrzeit, bis zu der unterschrieben werden kann
+    id         BIGINT       NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    markdown   TEXT         NOT NULL, -- Markdown of the contract
+    hash_algo  VARCHAR(64)  NOT NULL, -- Used algorithm for hashing
+    hash_value VARCHAR(512) NOT NULL, -- Hash value for field markdown as calculated by hash_algo
+    due_date   DATE         NOT NULL  -- Datum + Uhrzeit, bis zu der unterschrieben werden kann
 );
 
 -- Stores the access "secret"
