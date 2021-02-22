@@ -1,12 +1,9 @@
 <?php
 include_once '../config/sql.conf.php';
 
-function createMysqlConnection(): mysqli
+function createMysqlConnection(): PDO
 {
-    $connection = new mysqli(mysql_host, mysql_user, mysql_pwd, mysql_db, mysql_port);
-    if ($connection->connect_error) {
-        die("DB failed: " . $connection->connect_error);
-    }
-    $connection->autocommit(false);
-    return $connection;
+    $pdo = new PDO('mysql:host=' . mysql_host . ':' . mysql_port . ';dbname=' . mysql_db, mysql_user, mysql_pwd);
+    $pdo->setAttribute(PDO::ATTR_AUTOCOMMIT, 0);
+    return $pdo;
 }

@@ -1,13 +1,14 @@
 <?php
-include_once "../header/204.php";
+include_once "../header/required.php";
+include_once "../utils/security.php";
 include_once "../utils/string.php";
 include_once "../utils/sql.php";
-include_once "../utils/security.php";
+include_once "../utils/mail.php";
 include_once "../utils/files.php";
 
 const hash_algo = "sha3-512";
 
-$mysqli = createMysqlConnection();
+$pdo = createMysqlConnection();
 $json = read_body_json();
 // JSON as individual variables
 $insert_user = $json["user"];
@@ -15,12 +16,13 @@ $insert_pwd = $json["pwd"];
 $contract_filename = $json["contractType"];
 $contract_dueDate = $json["dueDate"];
 $person_array = $json["persons"];
+$base_url = $json["baseUrl"];
 
 if (str_contains($contract_filename, "\\") || str_contains($contract_filename, "/"))
     die("Illegal filename " . $contract_filename);
 
 // Check if user is allowed to insert
-if (!checkUserInsert($mysqli, $insert_user, $insert_pwd)) {
+if (!checkUserInsert($pdo, $insert_user, $insert_pwd)) {
     die("Wrong PWD");
 }
 
@@ -32,50 +34,76 @@ if ($contract_data === false)
 $contract_hash = hash(hash_algo, $contract_data);
 
 
-$contract_dbid = insert_contract($mysqli, $contract_data, $contract_dueDate, $contract_hash);
+$contract_dbid = insertContract($pdo, $contract_data, $contract_dueDate, $contract_hash);
 
-$inserted_permissions = insert_permissions($mysqli, $person_array, $contract_dbid);
+insertPermissions($pdo, $person_array, $contract_dbid);
 
-if (count($person_array) !== count($inserted_permissions))
-    die("Die Anzahl an Permissions ist ungleich der angeforderten");
 
-//TODO email senden
+$pdo->commit();
+
+foreach ($person_array as $person) {
+    sendMailInternal($person, $base_url);
+}
 
 /**
  * Insert contract into DB
- * @param mysqli $mysqli
- * @param string $contract_data
- * @param mixed $contract_dueDate
- * @param string $contract_hash
+ * @param mysqli $pdo
+ * @param string $contraxtData
+ * @param mixed $dueDate
+ * @param string $hashedData
  * @return int|string
  */
-function insert_contract(mysqli $mysqli, string $contract_data, mixed $contract_dueDate, string $contract_hash): int|string
+function insertContract(PDO $pdo, string $contraxtData, mixed $dueDate, string $hashedData): int|string
 {
-    $insert_contract_statement = $mysqli->prepare("INSERT INTO contract_data(markdown,due_date,hash_algo,hash_value) VALUES (?,?,?,?)");
-    $insert_contract_statement->bind_param("ssss", $contract_data, $contract_dueDate, hash_algo, $contract_hash);
-    if (!$insert_contract_statement->execute()) {
-        die("Cannot insert contract");
-    }
-    return $mysqli->insert_id;
+    $statement = $pdo->prepare("INSERT INTO contract_data(markdown,due_date,hash_algo,hash_value) VALUES (:md,:due,:algo,:hash)");
+    $statement->bindParam("md", $contraxtData);
+    $statement->bindParam("due", $dueDate);
+    $hash_algo = hash_algo;
+    $statement->bindParam("algo", $hash_algo);
+    $statement->bindParam("hash", $hashedData);
+    $statement->execute();
+    return $pdo->lastInsertId();
 }
 
 /**
  * Insert permissions
- * @param mysqli $mysqli
+ * @param PDO $pdo
  * @param mixed $persons
- * @param int|string $contract_dbid
+ * @param int|string $id
  * @return void
  */
-function insert_permissions(mysqli $mysqli, array $persons, int|string $contract_dbid): array
+function insertPermissions(PDO $pdo, array &$persons, int|string $id): void
 {
-    $contract_access_statement = $mysqli->prepare("INSERT INTO contract_access(contract_id ,email,firstname,lastname,birthday) VALUES (?,?,?,?,?)");
-    foreach ($persons as $person) {
-        $contract_access_statement->bind_param("issss", $contract_dbid, $person["email"], $person["firstName"], $person["lastName"], $person["birthday"]);
-        if (!$contract_access_statement->execute())
-            die("Could not insert access permission");
+    $insert = $pdo->prepare("INSERT INTO contract_access(contract_id ,email,firstname,lastname,birthday) VALUES (:id,:email,:first,:last,:birthday)");
+    $access = $pdo->prepare("SELECT access_key FROM  contract_access WHERE contract_id = :id");
+    foreach ($persons as $key => $person) {
+        $insert->bindParam("id", $id);
+        $insert->bindParam("email", $person["email"]);
+        $insert->bindParam("first", $person["firstName"]);
+        $insert->bindParam("last", $person["lastName"]);
+        $insert->bindParam("birthday", $person["birthday"]);
+        $insert->execute();
+
+        $access->bindParam("id", $id);
+        $access->execute();
+        $persons[$key]["access_key"] = $access->fetchColumn(0);
     }
-    $permission_result = $mysqli->query("SELECT email,access_key FROM  contract_access WHERE contract_id = " . $contract_dbid);
-    if ($permission_result === false)
-        die("No permissions found");
-    return $permission_result->fetch_all(MYSQLI_ASSOC);
 }
+
+function sendMailInternal(array $person, string $baseUrl): void
+{
+
+    $access_key = $person["access_key"];
+    $to = $person["email"];
+    sendMail(
+        "contracts@reisishot.pictures",
+        $to,
+        "Zugriff zu deinem Vertrag",
+        "<h1>Zugriff zu deinem Vertrag</h1>
+ <p>
+  Bitte benutze den folgenden Link, um zu deinem Vertrag zu kommen: <a href='$baseUrl/$to/$access_key'>Link zum Vertrag</a>
+</p>"
+    );
+}
+
+include_once "../header/204.php";
