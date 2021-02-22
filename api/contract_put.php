@@ -101,9 +101,7 @@ function sendMailInternal(array $person, string $baseUrl): void
         "Zugriff zu deinem Vertrag",
         "<h1>Zugriff zu deinem Vertrag</h1>
  <p>
-  Bitte benutze den folgenden Link, um zu deinem Vertrag zu kommen: <a href='$baseUrl/$to/$access_key'>Link zum Vertrag</a>
+  Bitte benutze den folgenden Link, um zu deinem Vertrag zu kommen: <a href='$baseUrl/contracts/$to/$access_key'>Link zum Vertrag</a>
 </p>"
     );
 }
-
-include_once "../header/204.php";
