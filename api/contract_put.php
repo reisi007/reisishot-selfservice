@@ -42,23 +42,48 @@ insertPermissions($pdo, $person_array, $contract_dbid);
 $pdo->commit();
 
 foreach ($person_array as $person) {
-    sendMailInternal($person, $base_url);
+    sendMailInternal($person, $contract_dueDate, $base_url);
 }
 
 /**
  * Insert contract into DB
- * @param mysqli $pdo
+ * @param PDO $pdo
  * @param string $contraxtData
- * @param mixed $dueDate
+ * @param string $dueDate
  * @param string $hashedData
  * @return int|string
  */
-function insertContract(PDO $pdo, string $contraxtData, mixed $dueDate, string $hashedData): int|string
+function insertContract(PDO $pdo, string $contraxtData, string $dueDate, string $hashedData): int|string
 {
-    $statement = $pdo->prepare("INSERT INTO contract_data(markdown,due_date,hash_algo,hash_value) VALUES (:md,:due,:algo,:hash)");
-    $statement->bindParam("md", $contraxtData);
-    $statement->bindParam("due", $dueDate);
+    $id = insertContractData($pdo, $hashedData, $contraxtData);
+
+    $stmt = $pdo->prepare("INSERT INTO contract_instances(contract_id, due_date) VALUES (:contractId,:dueDate)");
+    $stmt->bindParam("contractId", $id);
+    $stmt->bindParam("dueDate", $dueDate);
+    $stmt->execute();
+    return $pdo->lastInsertId();
+}
+
+/**
+ * @param PDO|mysqli $pdo
+ * @param string $hashedData
+ * @param string $contraxtData
+ * @return mixed|string
+ */
+function insertContractData(PDO|mysqli $pdo, string $hashedData, string $contraxtData): int
+{
     $hash_algo = hash_algo;
+    // Check if contract is already there
+    $find = $pdo->prepare("SELECT id FROM contract_data WHERE hash_algo = :algo AND hash_value = :hash");
+    $find->bindParam("algo", $hash_algo);
+    $find->bindParam("hash", $hashedData);
+    $find->execute();
+    $column = $find->fetchColumn(0);
+    if ($column !== false)
+        return $column;
+
+    $statement = $pdo->prepare("INSERT INTO contract_data(markdown,hash_algo,hash_value) VALUES (:md,:algo,:hash)");
+    $statement->bindParam("md", $contraxtData);
     $statement->bindParam("algo", $hash_algo);
     $statement->bindParam("hash", $hashedData);
     $statement->execute();
@@ -90,8 +115,10 @@ function insertPermissions(PDO $pdo, array &$persons, int|string $id): void
     }
 }
 
-function sendMailInternal(array $person, string $baseUrl): void
+function sendMailInternal(array $person, string $endDate, string $baseUrl): void
 {
+    $formattedDate = date("d.m.Y h:i", strtotime($endDate));
+
 
     $access_key = $person["access_key"];
     $to = $person["email"];
@@ -102,6 +129,9 @@ function sendMailInternal(array $person, string $baseUrl): void
         "<h1>Zugriff zu deinem Vertrag</h1>
  <p>
   Bitte benutze den folgenden Link, um zu deinem Vertrag zu kommen: <a href='$baseUrl/contracts/$to/$access_key'>Link zum Vertrag</a>
+</p><p>
+Der Vertrag kann bis spätestens $formattedDate unterschrieben werden!
 </p>"
+
     );
 }

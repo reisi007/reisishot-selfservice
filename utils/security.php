@@ -8,7 +8,7 @@ function checkUserInsert(PDO $connection, string $user, string $pwd): bool
     $statement->execute();
 
     $user = $statement->fetch();
-    // $newPwd = password_hash($pwd . $user["salt"], PASSWORD_BCRYPT, array("cost" => 10));
+    //$newPwd = password_hash($pwd . $user["salt"], PASSWORD_BCRYPT, array("cost" => 10));
 
     return password_verify(
         $pwd . $user["salt"],

@@ -2,6 +2,7 @@
 DROP TABLE IF EXISTS contract_permissions;
 DROP TABLE IF EXISTS contract_log;
 DROP TABLE IF EXISTS contract_access;
+DROP TABLE IF EXISTS contract_instances;
 DROP TABLE IF EXISTS contract_data;
 --
 -- Create Tables
@@ -14,7 +15,16 @@ CREATE TABLE contract_data
     markdown   TEXT         NOT NULL, -- Markdown of the contract
     hash_algo  VARCHAR(64)  NOT NULL, -- Used algorithm for hashing
     hash_value VARCHAR(512) NOT NULL, -- Hash value for field markdown as calculated by hash_algo
-    due_date   DATE         NOT NULL  -- Datum + Uhrzeit, bis zu der unterschrieben werden kann
+    UNIQUE (hash_algo, hash_value)
+);
+
+
+CREATE TABLE contract_instances
+(
+    id          BIGINT   NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    contract_id BIGINT   NOT NULL,
+    due_date    DATETIME NOT NULL, -- Datum + Uhrzeit, bis zu der unterschrieben werden kann
+    FOREIGN KEY (contract_id) REFERENCES contract_data (id)
 );
 
 -- Stores the access "secret"
@@ -26,6 +36,7 @@ CREATE TABLE contract_access
     firstname   VARCHAR(200) NOT NULL,
     lastname    VARCHAR(200) NOT NULL,
     birthday    DATE         NOT NULL,
+
     PRIMARY KEY (access_key(36)),
     UNIQUE (email, contract_id),
     FOREIGN KEY (contract_id) REFERENCES contract_data (id)
