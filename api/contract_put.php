@@ -99,9 +99,11 @@ function insertContractData(PDO|mysqli $pdo, string $hashedData, string $contrax
  */
 function insertPermissions(PDO $pdo, array &$persons, int|string $id): void
 {
-    $insert = $pdo->prepare("INSERT INTO contract_access(contract_id ,email,firstname,lastname,birthday) VALUES (:id,:email,:first,:last,:birthday)");
+    $insert = $pdo->prepare("INSERT INTO contract_access(contract_id,access_key ,email,firstname,lastname,birthday) VALUES (:id,:key,:email,:first,:last,:birthday)");
     $access = $pdo->prepare("SELECT access_key FROM  contract_access WHERE contract_id = :id");
     foreach ($persons as $key => $person) {
+        $uuid = uuid($pdo);
+        $insert->bindParam("key", $uuid);
         $insert->bindParam("id", $id);
         $insert->bindParam("email", $person["email"]);
         $insert->bindParam("first", $person["firstName"]);

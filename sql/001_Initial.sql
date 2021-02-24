@@ -14,7 +14,7 @@ CREATE TABLE contract_data
     id         BIGINT       NOT NULL PRIMARY KEY AUTO_INCREMENT,
     markdown   TEXT         NOT NULL, -- Markdown of the contract
     hash_algo  VARCHAR(64)  NOT NULL, -- Used algorithm for hashing
-    hash_value VARCHAR(512) NOT NULL, -- Hash value for field markdown as calculated by hash_algo
+    hash_value VARCHAR(128) NOT NULL, -- Hash value for field markdown as calculated by hash_algo
     UNIQUE (hash_algo, hash_value)
 );
 
@@ -30,8 +30,8 @@ CREATE TABLE contract_instances
 -- Stores the access "secret"
 CREATE TABLE contract_access
 (
-    access_key  TEXT(36)     NOT NULL DEFAULT UUID(),
-    email       VARCHAR(512) NOT NULL,
+    access_key  TEXT(36)     NOT NULL,
+    email       VARCHAR(128) NOT NULL,
     contract_id BIGINT       NOT NULL,
     firstname   VARCHAR(200) NOT NULL,
     lastname    VARCHAR(200) NOT NULL,
@@ -47,10 +47,10 @@ CREATE TABLE contract_access
 CREATE TABLE contract_log
 (
     contract_id BIGINT       NOT NULL,
-    email       VARCHAR(512) NOT NULL,
+    email       VARCHAR(128) NOT NULL,
     timestamp   DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     log_type    TEXT(4)      NOT NULL,
-    hash_value  VARCHAR(512) NOT NULL,
+    hash_value  VARCHAR(128) NOT NULL,
 
     PRIMARY KEY (email, contract_id, timestamp, log_type(4)),
     FOREIGN KEY (contract_id) REFERENCES contract_data (id)
