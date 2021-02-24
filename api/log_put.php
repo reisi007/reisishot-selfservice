@@ -2,6 +2,7 @@
 include_once "../header/required.php";
 include_once "../utils/security.php";
 include_once "../utils/sql.php";
+include_once "../utils/mail.php";
 include_once "../utils/files.php";
 
 $pdo = createMysqlConnection();
@@ -12,6 +13,7 @@ $email = $_GET["email"];
 $access_key = $_GET["access_key"];
 
 $action = $json["action"];
+$base_url = $json["baseUrl"];
 
 $stmt = $pdo->prepare("
 SELECT contract_id, hash_value
@@ -34,3 +36,10 @@ $insert->bindParam("hash", $data["hash_value"]);
 $insert->execute();
 
 $pdo->commit();
+
+sendMail("contracts@reisishot.pictures", $email, $action . " - Aktion bei deinem Vertrag", "
+<h1>Zugriff zu deinem Vertrag</h1>
+ <p>
+  Bitte benutze den folgenden Link, um zu deinem Vertrag zu kommen: <a href='$base_url/contracts/$email/$access_key'>Link zum Vertrag</a>
+</p>
+");
