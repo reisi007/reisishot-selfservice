@@ -16,12 +16,13 @@ $action = $json["action"];
 $base_url = $json["baseUrl"];
 
 $stmt = $pdo->prepare("
-SELECT contract_id, hash_value
+SELECT ca.contract_id, hash_value
 FROM contract_access ca
          JOIN contract_data cd ON cd.id = ca.contract_id
+         JOIN contract_instances ci ON cd.id = ci.contract_id
 WHERE email = :email
   AND access_key = :access_key
-
+  AND CURRENT_TIMESTAMP <= ci.due_date
 ");
 $stmt->bindParam("email", $email);
 $stmt->bindParam("access_key", $access_key);
