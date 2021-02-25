@@ -21,9 +21,12 @@ CREATE TABLE contract_data
 
 CREATE TABLE contract_instances
 (
-    id          BIGINT   NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    contract_id BIGINT   NOT NULL,
-    due_date    DATETIME NOT NULL, -- Datum + Uhrzeit, bis zu der unterschrieben werden kann
+    id              BIGINT        NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    contract_id     BIGINT        NOT NULL,
+    additional_text VARCHAR(1024) NOT NULL,
+    hash_algo       VARCHAR(64)   NOT NULL, -- Used algorithm for hashing
+    hash_value      VARCHAR(128)  NOT NULL, -- Hash value for field markdown as calculated by hash_algo
+    due_date        DATETIME      NOT NULL, -- Datum + Uhrzeit, bis zu der unterschrieben werden kann
     FOREIGN KEY (contract_id) REFERENCES contract_data (id)
 );
 

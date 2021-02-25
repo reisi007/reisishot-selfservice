@@ -2,10 +2,10 @@
 include_once "../db/fetch_multiple.php";
 
 db("
-SELECT ca.email AS email, CAST(cl.contract_id IS NOT NULL AS INTEGER) AS signed
+SELECT ca.email AS email,firstname,lastname,birthday,  CAST(cl.contract_id IS NOT NULL AS INTEGER) AS signed
 FROM (
-         SELECT contract_id, email
-         FROM contract_access
+         SELECT contract_id, email, firstname,lastname,birthday
+         FROM contract_access ca
          WHERE contract_id =
                (SELECT contract_id FROM contract_access ca WHERE ca.email = :email AND ca.access_key = :access_key)
      ) ca

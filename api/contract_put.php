@@ -14,6 +14,7 @@ $json = read_body_json();
 $insert_user = $json["user"];
 $insert_pwd = $json["pwd"];
 $contract_filename = $json["contractType"];
+$additionalText = $json["text"];
 $contract_dueDate = $json["dueDate"];
 $person_array = $json["persons"];
 $base_url = $json["baseUrl"];
@@ -31,10 +32,8 @@ if (!checkUserInsert($pdo, $insert_user, $insert_pwd)) {
 $contract_data = file_get_contents("../assets/contracts/" . $contract_filename);
 if ($contract_data === false)
     die("Contract not found");
-$contract_hash = hash(hash_algo, $contract_data);
 
-
-$contract_dbid = insertContract($pdo, $contract_data, $contract_dueDate, $contract_hash);
+$contract_dbid = insertContract($pdo, $contract_data, $additionalText, $contract_dueDate);
 
 insertPermissions($pdo, $person_array, $contract_dbid);
 
@@ -49,16 +48,22 @@ foreach ($person_array as $person) {
  * Insert contract into DB
  * @param PDO $pdo
  * @param string $contraxtData
+ * @param string $additionalText
  * @param string $dueDate
- * @param string $hashedData
  * @return int|string
  */
-function insertContract(PDO $pdo, string $contraxtData, string $dueDate, string $hashedData): int|string
+function insertContract(PDO $pdo, string $contraxtData, string $additionalText, string $dueDate): int|string
 {
-    $id = insertContractData($pdo, $hashedData, $contraxtData);
+    $contractHash = hash(hash_algo, $contraxtData);
+    $fullHash = hash(hash_algo, combineMd($contraxtData, $additionalText));
+    $id = insertContractData($pdo, $contractHash, $contraxtData);
 
-    $stmt = $pdo->prepare("INSERT INTO contract_instances(contract_id, due_date) VALUES (:contractId,:dueDate)");
+    $stmt = $pdo->prepare("INSERT INTO contract_instances(contract_id, additional_text, hash_algo, hash_value, due_date) VALUES (:contractId,:text,:algo,:hash,:dueDate)");
     $stmt->bindParam("contractId", $id);
+    $stmt->bindParam("text", $additionalText);
+    $algo = hash_algo;
+    $stmt->bindParam("algo", $algo);
+    $stmt->bindParam("hash", $fullHash);
     $stmt->bindParam("dueDate", $dueDate);
     $stmt->execute();
     return $pdo->lastInsertId();
