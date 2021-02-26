@@ -9,6 +9,8 @@ include_once "../utils/files.php";
 const hash_algo = "sha3-512";
 
 $pdo = createMysqlConnection();
+$pdo->beginTransaction();
+
 $json = read_body_json();
 // JSON as individual variables
 $insert_user = $json["user"];
@@ -19,8 +21,10 @@ $contract_dueDate = $json["dueDate"];
 $person_array = $json["persons"];
 $base_url = $json["baseUrl"];
 
-if (str_contains($contract_filename, "\\") || str_contains($contract_filename, "/"))
-    die("Illegal filename " . $contract_filename);
+if (!isEmailUnique())
+
+    if (strpos($contract_filename, "\\") !== false || strpos($contract_filename, "/") !== false)
+        die("Illegal filename " . $contract_filename);
 
 // Check if user is allowed to insert
 if (!checkUserInsert($pdo, $insert_user, $insert_pwd)) {
@@ -35,13 +39,13 @@ if ($contract_data === false)
 
 $contract_dbid = insertContract($pdo, $contract_data, $additionalText, $contract_dueDate);
 
-insertPermissions($pdo, $person_array, $contract_dbid);
-
+insertPermissions($pdo, $person_array, $contract_dbid, $contract_dueDate, $base_url);
 
 $pdo->commit();
 
-foreach ($person_array as $person) {
-    sendMailInternal($person, $contract_dueDate, $base_url);
+function isEmailUnique($persons)
+{
+
 }
 
 /**
@@ -50,9 +54,9 @@ foreach ($person_array as $person) {
  * @param string $contraxtData
  * @param string $additionalText
  * @param string $dueDate
- * @return int|string
+ * @return string
  */
-function insertContract(PDO $pdo, string $contraxtData, string $additionalText, string $dueDate): int|string
+function insertContract(PDO $pdo, string $contraxtData, string $additionalText, string $dueDate): string
 {
     $contractHash = hash(hash_algo, $contraxtData);
     $fullHash = hash(hash_algo, combineMd($contraxtData, $additionalText));
@@ -70,12 +74,12 @@ function insertContract(PDO $pdo, string $contraxtData, string $additionalText, 
 }
 
 /**
- * @param PDO|mysqli $pdo
+ * @param PDO $pdo
  * @param string $hashedData
  * @param string $contraxtData
- * @return mixed|string
+ * @return int
  */
-function insertContractData(PDO|mysqli $pdo, string $hashedData, string $contraxtData): int
+function insertContractData(PDO $pdo, string $hashedData, string $contraxtData): int
 {
     $hash_algo = hash_algo;
     // Check if contract is already there
@@ -92,42 +96,44 @@ function insertContractData(PDO|mysqli $pdo, string $hashedData, string $contrax
     $statement->bindParam("algo", $hash_algo);
     $statement->bindParam("hash", $hashedData);
     $statement->execute();
-    return $pdo->lastInsertId();
+
+    $id = $pdo->prepare("SELECT id FROM contract_data WHERE hash_algo = :algo AND hash_value = :hash");
+    $id->bindParam("algo", $hash_algo);
+    $id->bindParam("hash", $hashedData);
+    $id->execute();
+    return $id->fetchColumn();
 }
 
 /**
  * Insert permissions
  * @param PDO $pdo
  * @param mixed $persons
- * @param int|string $id
+ * @param string $id
+ * @param string $dueDate
+ * @param string $base_url
  * @return void
  */
-function insertPermissions(PDO $pdo, array &$persons, int|string $id): void
+function insertPermissions(PDO $pdo, array $persons, string $id, string $dueDate, string $base_url): void
 {
     $insert = $pdo->prepare("INSERT INTO contract_access(contract_id,access_key ,email,firstname,lastname,birthday) VALUES (:id,:key,:email,:first,:last,:birthday)");
-    $access = $pdo->prepare("SELECT access_key FROM  contract_access WHERE contract_id = :id");
     foreach ($persons as $key => $person) {
         $uuid = uuid($pdo);
-        $insert->bindParam("key", $uuid);
         $insert->bindParam("id", $id);
+        $insert->bindParam("key", $uuid);
         $insert->bindParam("email", $person["email"]);
         $insert->bindParam("first", $person["firstName"]);
         $insert->bindParam("last", $person["lastName"]);
         $insert->bindParam("birthday", $person["birthday"]);
         $insert->execute();
 
-        $access->bindParam("id", $id);
-        $access->execute();
-        $persons[$key]["access_key"] = $access->fetchColumn(0);
+        sendMailInternal($person, $dueDate, $base_url, $uuid);
     }
 }
 
-function sendMailInternal(array $person, string $endDate, string $baseUrl): void
+function sendMailInternal(array $person, string $endDate, string $baseUrl, string $access_key): void
 {
     $formattedDate = date("d.m.Y h:i", strtotime($endDate));
 
-
-    $access_key = $person["access_key"];
     $to = $person["email"];
     sendMail(
         "contracts@reisishot.pictures",

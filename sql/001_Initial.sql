@@ -42,7 +42,7 @@ CREATE TABLE contract_access
 
     PRIMARY KEY (access_key(36)),
     UNIQUE (email, contract_id),
-    FOREIGN KEY (contract_id) REFERENCES contract_data (id)
+    FOREIGN KEY (contract_id) REFERENCES contract_instances (id)
         ON DELETE CASCADE
 );
 
@@ -56,7 +56,7 @@ CREATE TABLE contract_log
     hash_value  VARCHAR(128) NOT NULL,
 
     PRIMARY KEY (email, contract_id, timestamp, log_type(4)),
-    FOREIGN KEY (contract_id) REFERENCES contract_data (id)
+    FOREIGN KEY (contract_id) REFERENCES contract_instances (id)
 );
 
 -- Access permissions
