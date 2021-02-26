@@ -30,6 +30,9 @@ $stmt->bindParam("access_key", $access_key);
 $stmt->execute();
 $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
+if ($data === false)
+    return;
+
 $insert = $pdo->prepare("INSERT INTO contract_log(contract_id, email, log_type, hash_value) VALUES (:id,:email,:type,:hash)");
 $insert->bindParam("id", $data["contract_id"]);
 $insert->bindParam("email", $email);
