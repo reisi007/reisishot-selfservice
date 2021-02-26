@@ -21,10 +21,11 @@ $contract_dueDate = $json["dueDate"];
 $person_array = $json["persons"];
 $base_url = $json["baseUrl"];
 
-if (!isEmailUnique())
+if (!isEmailUnique($person_array))
+    die();
 
-    if (strpos($contract_filename, "\\") !== false || strpos($contract_filename, "/") !== false)
-        die("Illegal filename " . $contract_filename);
+if (strpos($contract_filename, "\\") !== false || strpos($contract_filename, "/") !== false)
+    die("Illegal filename " . $contract_filename);
 
 // Check if user is allowed to insert
 if (!checkUserInsert($pdo, $insert_user, $insert_pwd)) {
@@ -43,9 +44,18 @@ insertPermissions($pdo, $person_array, $contract_dbid, $contract_dueDate, $base_
 
 $pdo->commit();
 
-function isEmailUnique($persons)
+function isEmailUnique($persons): bool
 {
+    $array = array();
+    foreach ($persons as $person) {
+        array_push($array, $person["email"]);
+    }
+    return no_dupes($array);
+}
 
+function no_dupes(array $input_array): bool
+{
+    return count($input_array) === count(array_flip($input_array));
 }
 
 /**
@@ -97,11 +107,7 @@ function insertContractData(PDO $pdo, string $hashedData, string $contraxtData):
     $statement->bindParam("hash", $hashedData);
     $statement->execute();
 
-    $id = $pdo->prepare("SELECT id FROM contract_data WHERE hash_algo = :algo AND hash_value = :hash");
-    $id->bindParam("algo", $hash_algo);
-    $id->bindParam("hash", $hashedData);
-    $id->execute();
-    return $id->fetchColumn();
+    return $pdo->lastInsertId();
 }
 
 /**
@@ -147,6 +153,5 @@ function sendMailInternal(array $person, string $endDate, string $baseUrl, strin
 Der Vertrag kann bis spätestens $formattedDate unterschrieben werden!
 </p>
 "
-
     );
 }
