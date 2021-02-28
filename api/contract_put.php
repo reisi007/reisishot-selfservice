@@ -13,13 +13,13 @@ $pdo->beginTransaction();
 
 $json = read_body_json();
 // JSON as individual variables
-$insert_user = $json["user"];
-$insert_pwd = $json["pwd"];
-$contract_filename = $json["contractType"];
-$additionalText = $json["text"];
-$contract_dueDate = $json["dueDate"];
+$insert_user = trim($json["user"]);
+$insert_pwd = trim($json["pwd"]);
+$contract_filename = trim($json["contractType"]);
+$additionalText = trim($json["text"]);
+$contract_dueDate = trim($json["dueDate"]);
 $person_array = $json["persons"];
-$base_url = $json["baseUrl"];
+$base_url = trim($json["baseUrl"]);
 
 if (!isEmailUnique($person_array))
     die();
@@ -124,12 +124,16 @@ function insertPermissions(PDO $pdo, array $persons, string $id, string $dueDate
     $insert = $pdo->prepare("INSERT INTO contract_access(contract_id,access_key ,email,firstname,lastname,birthday) VALUES (:id,:key,:email,:first,:last,:birthday)");
     foreach ($persons as $key => $person) {
         $uuid = uuid($pdo);
+        $email = trim($person["email"]);
+        $firstName = trim($person["firstName"]);
+        $lastName = trim($person["lastName"]);
+        $birthday = trim($person["birthday"]);
         $insert->bindParam("id", $id);
         $insert->bindParam("key", $uuid);
-        $insert->bindParam("email", $person["email"]);
-        $insert->bindParam("first", $person["firstName"]);
-        $insert->bindParam("last", $person["lastName"]);
-        $insert->bindParam("birthday", $person["birthday"]);
+        $insert->bindParam("email", $email);
+        $insert->bindParam("first", $firstName);
+        $insert->bindParam("last", $lastName);
+        $insert->bindParam("birthday", $birthday);
         $insert->execute();
 
         sendMailInternal($person, $dueDate, $base_url, $uuid);

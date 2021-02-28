@@ -10,11 +10,11 @@ $pdo->beginTransaction();
 
 $json = read_body_json();
 
-$email = $_GET["email"];
-$access_key = $_GET["access_key"];
+$email = trim($_GET["email"]);
+$access_key = trim($_GET["access_key"]);
 
-$action = $json["action"];
-$base_url = $json["baseUrl"];
+$action = trim($json["action"]);
+$base_url = trim($json["baseUrl"]);
 
 $stmt = $pdo->prepare("
 SELECT ca.contract_id, ci.hash_value
