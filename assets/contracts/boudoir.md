@@ -76,14 +76,14 @@ Mir ist auch bewusst, dass Bilder aus dem Shooting – je nach Auswahl unten –
 
 Bei einer Veröffentlichung wird der erste Buchstabe deines Nachnamens zur Identifikation verwendet.
 
-- Ich fülle dein Feedback Formular aus und der Fotograf darf zumindest ein Foto im Querformat von mir veröffentlichen (
-  auf den veröffentlichten Fotos muss man dich nicht erkennen können)
-- Der Fotograf darf alle Fotos aus dem Shooting auf seiner Webseite / Social Media / etc. veröffentlichen. (Ich möchte
-  eine möglichst große Vielfalt an Fotos auf meiner Webseite herzeigen können)
-- Ich nehme ein kurzes Video auf, wo ich sagst wie mir das Shooting gefallen hat und wie ich mich davor, währenddessen
-  und danach gefühlt habe (hier wird kein Foto veröffentlicht)
-- Ich gebe den Fotografen großzügig Feedback zum Prozess vor / während und nach dem Shooting. Zusätzlich gibt es während
-  des Shooting einen Teil, wo der Fotograf neues ausprobieren kann (bitte frag nach, was ich ausprobieren möchte)
+Das Model akzeptiert eine der unten aufgeführten Möglichkeiten:
+
+1) Ich fülle dein Feedback Formular aus und der Fotograf darf zumindest ein Foto im Querformat von mir veröffentlichen (
+   auf den veröffentlichten Fotos muss man dich nicht erkennen können)
+2) Der Fotograf darf alle Fotos aus dem Shooting auf seiner Webseite / Social Media / etc. veröffentlichen. (Ich möchte
+   eine möglichst große Vielfalt an Fotos auf meiner Webseite herzeigen können)
+3) Ich nehme ein kurzes Video auf, wo ich sagst wie mir das Shooting gefallen hat und wie ich mich davor, währenddessen
+   und danach gefühlt habe (hier wird kein Foto veröffentlicht)
 
 ## Abschließende Worte
 
