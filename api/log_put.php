@@ -23,10 +23,13 @@ FROM contract_access ca
 WHERE email = :email
   AND access_key = :access_key
   AND CURRENT_TIMESTAMP <= ci.due_date
-  AND NOT EXISTS(SELECT *
-                 FROM contract_log cl
-                 WHERE email = :email
-                   AND ca.contract_id = cl.contract_id);
+  AND NOT EXISTS(
+        SELECT log_type
+        FROM contract_log cl
+        WHERE cl.email = :email
+          AND ca.contract_id = cl.contract_id
+          AND log_type = 'SIGN'
+    )
 ");
 $stmt->bindParam("email", $email);
 $stmt->bindParam("access_key", $access_key);
