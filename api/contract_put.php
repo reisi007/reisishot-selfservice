@@ -142,7 +142,7 @@ function insertPermissions(PDO $pdo, array $persons, string $id, string $dueDate
 
 function sendMailInternal(array $person, string $endDate, string $baseUrl, string $access_key): void
 {
-    $formattedDate = date("d.m.Y h:i", strtotime($endDate));
+    $formattedDate = date("d.m.Y H:i", strtotime($endDate));
 
     $to = $person["email"];
     sendMail(
