@@ -27,7 +27,7 @@ $body = "
 </p><ul>";
 if ($res !== false) {
     $idx = 0;
-    foreach ($statement->fetch(PDO::FETCH_ASSOC) as $accessKey) {
+    while (($accessKey = $statement->fetchColumn()) !== false) {
         $idx++;
         $body .= "<li><a href='$base_url/contracts/$to/$accessKey'>Vertrag $idx</a> </li>";
     }
