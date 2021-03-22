@@ -61,16 +61,16 @@ function no_dupes(array $input_array): bool
 /**
  * Insert contract into DB
  * @param PDO $pdo
- * @param string $contraxtData
+ * @param string $contractData
  * @param string $additionalText
  * @param string $dueDate
  * @return string
  */
-function insertContract(PDO $pdo, string $contraxtData, string $additionalText, string $dueDate): string
+function insertContract(PDO $pdo, string $contractData, string $additionalText, string $dueDate): string
 {
-    $contractHash = hash(hash_algo, $contraxtData);
-    $fullHash = hash(hash_algo, combineMd($contraxtData, $additionalText));
-    $id = insertContractData($pdo, $contractHash, $contraxtData);
+    $contractHash = hash(hash_algo, $contractData);
+    $fullHash = hash(hash_algo, combineMd($contractData, $additionalText));
+    $id = insertContractData($pdo, $contractHash, $contractData);
 
     $stmt = $pdo->prepare("INSERT INTO contract_instances(contract_id, additional_text, hash_algo, hash_value, due_date) VALUES (:contractId,:text,:algo,:hash,:dueDate)");
     $stmt->bindParam("contractId", $id);
