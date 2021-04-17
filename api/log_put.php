@@ -38,12 +38,15 @@ $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if ($data === false)
     return;
+$hash_value = $data["hash_value"];
+
 
 $insert = $pdo->prepare("INSERT INTO contract_log(contract_id, email, log_type, hash_value) VALUES (:id,:email,:type,:hash)");
 $insert->bindParam("id", $data["contract_id"]);
 $insert->bindParam("email", $email);
 $insert->bindParam("type", $action);
-$insert->bindParam("hash", $data["hash_value"]);
+
+$insert->bindParam("hash", $hash_value);
 $insert->execute();
 
 $pdo->commit();
@@ -52,5 +55,8 @@ sendMail("contracts@reisishot.pictures", $email, $action . " - Aktion bei deinem
 <h1>Zugriff zu deinem Vertrag</h1>
  <p>
   Bitte benutze den folgenden Link, um zu deinem Vertrag zu kommen: <a href='$base_url/contracts/$email/$access_key'>Link zum Vertrag</a>
+</p>
+<p>
+Hash: $hash_value
 </p>
 ");
