@@ -78,12 +78,16 @@ Bei einer Veröffentlichung wird der erste Buchstabe deines Nachnamens zur Ident
 
 Das Model akzeptiert eine der unten aufgeführten Möglichkeiten:
 
-1) Ich fülle dein Feedback Formular aus und der Fotograf darf zumindest ein Foto im Querformat von mir veröffentlichen (
-   auf den veröffentlichten Fotos muss man dich nicht erkennen können)
-2) Der Fotograf darf alle Fotos aus dem Shooting auf seiner Webseite / Social Media / etc. veröffentlichen. (Ich möchte
-   eine möglichst große Vielfalt an Fotos auf meiner Webseite herzeigen können)
+1) Ich fülle dein Feedback Formular aus und der Fotograf darf mehrere Fotos von mir veröffentlichen (auf den
+   veröffentlichten Fotos muss man dich nicht erkennen können)
+2) Der Fotograf darf alle Fotos aus dem Shooting auf seiner Webseite / Social Media / etc. veröffentlichen. (Der
+   Fotograf möchte eine möglichst große Vielfalt an Fotos auf meiner Webseite herzeigen können)
 3) Ich nehme ein kurzes Video auf, wo ich sagst wie mir das Shooting gefallen hat und wie ich mich davor, währenddessen
-   und danach gefühlt habe (hier wird kein Foto veröffentlicht)
+   und danach gefühlt habe (hier darfst du dich dafür entscheiden kein Foto zu veröffentlichen)
+
+Du musst dich innerhalb von einer Woche nach Erhalt der Bilder für eine Option entscheiden und hast eine weitere Woche
+Zeit die Leistung, die eine Option beinhalten kann zu erfüllen. Ansonsten muss ich davon ausgehen, dass du dich für
+Option 2 entschieden hast.
 
 ## Abschließende Worte
 
