@@ -10,10 +10,10 @@ $pdo->beginTransaction();
 
 $json = read_body_json();
 
-$email = trim($_GET["email"]);
+$email = strtolower(trim($_GET["email"]));
 $access_key = trim($_GET["access_key"]);
 
-$action = trim($json["action"]);
+$action = strtoupper(trim($json["action"]));
 $base_url = trim($json["baseUrl"]);
 
 $stmt = $pdo->prepare("

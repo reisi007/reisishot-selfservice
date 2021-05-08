@@ -48,7 +48,7 @@ function isEmailUnique($persons): bool
 {
     $array = array();
     foreach ($persons as $person) {
-        array_push($array, $person["email"]);
+        array_push($array, strtolower($person["email"]));
     }
     return no_dupes($array);
 }
@@ -124,9 +124,9 @@ function insertPermissions(PDO $pdo, array $persons, string $id, string $dueDate
     $insert = $pdo->prepare("INSERT INTO contract_access(contract_id,access_key ,email,firstname,lastname,birthday) VALUES (:id,:key,:email,:first,:last,:birthday)");
     foreach ($persons as $key => $person) {
         $uuid = uuid($pdo);
-        $email = trim($person["email"]);
-        $firstName = trim($person["firstName"]);
-        $lastName = trim($person["lastName"]);
+        $email = strtolower(trim($person["email"]));
+        $firstName = ucwords(trim($person["firstName"]));
+        $lastName = ucwords(trim($person["lastName"]));
         $birthday = trim($person["birthday"]);
         $insert->bindParam("id", $id);
         $insert->bindParam("key", $uuid);
