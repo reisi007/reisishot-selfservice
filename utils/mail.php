@@ -12,5 +12,5 @@ function sendMail(string $from, string $to, string $subject, string $body): bool
     $message = '<html lang="de"><body>';
     $message .= $body;
     $message .= '</body></html>';
-    return mail($to, $subject, $message, $headers);
+    return mail($to, '=?utf-8?B?' . base64_encode($subject) . '?=', $message, $headers);
 }
