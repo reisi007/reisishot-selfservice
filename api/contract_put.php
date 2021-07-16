@@ -21,42 +21,25 @@ $contract_dueDate = trim($json["dueDate"]);
 $person_array = $json["persons"];
 $base_url = trim($json["baseUrl"]);
 
-if (!isEmailUnique($person_array))
-    die();
-
 if (strpos($contract_filename, "\\") !== false || strpos($contract_filename, "/") !== false)
-    die("Illegal filename " . $contract_filename);
+     throw new Exception("Illegal filename " . $contract_filename);
 
 // Check if user is allowed to insert
 if (!checkUserInsert($pdo, $insert_user, $insert_pwd)) {
-    die("Wrong PWD");
+    throw new Exception("Wrong PWD");
 }
 
 // Load file from disk
 
 $contract_data = file_get_contents("../assets/contracts/" . $contract_filename);
 if ($contract_data === false)
-    die("Contract not found");
+    throw new Exception("Contract not found");
 
 $contract_dbid = insertContract($pdo, $contract_data, $additionalText, $contract_dueDate);
 
 insertPermissions($pdo, $person_array, $contract_dbid, $contract_dueDate, $base_url);
 
 $pdo->commit();
-
-function isEmailUnique($persons): bool
-{
-    $array = array();
-    foreach ($persons as $person) {
-        array_push($array, strtolower($person["email"]));
-    }
-    return no_dupes($array);
-}
-
-function no_dupes(array $input_array): bool
-{
-    return count($input_array) === count(array_flip($input_array));
-}
 
 /**
  * Insert contract into DB

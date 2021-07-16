@@ -41,7 +41,6 @@ CREATE TABLE contract_access
     birthday    DATE         NOT NULL,
 
     PRIMARY KEY (access_key(36)),
-    UNIQUE (email, contract_id),
     FOREIGN KEY (contract_id) REFERENCES contract_instances (id)
         ON DELETE CASCADE
 );
