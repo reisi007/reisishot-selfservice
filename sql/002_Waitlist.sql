@@ -12,7 +12,7 @@ CREATE TABLE waitlist_item
 
 CREATE TABLE waitlist_entry
 (
-    item_id       BIGINT       NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    item_id       BIGINT       NOT NULL,
     secret        TEXT         NOT NULL,
     email         VARCHAR(128) NOT NULL,
     firstname     VARCHAR(200) NOT NULL,
@@ -25,6 +25,6 @@ CREATE TABLE waitlist_entry
     done_customer BIT          NOT NULL DEFAULT 0,
     done_internal BIT          NOT NULL DEFAULT 0,
     UNIQUE (secret, email),
-    FOREIGN KEY (item_id) REFERENCES contract_instances (id)
+    FOREIGN KEY (item_id) REFERENCES waitlist_item (id)
         ON DELETE CASCADE
 )
