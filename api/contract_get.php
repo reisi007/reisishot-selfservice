@@ -1,5 +1,5 @@
 <?php
-include_once "../db/fetch_single.php";
+include_once "../db/fetch_single_secured.php";
 
 db("
 SELECT access_key,

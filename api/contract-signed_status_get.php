@@ -1,5 +1,5 @@
 <?php
-include_once "../db/fetch_multiple.php";
+include_once "../db/fetch_multiple_secured.php";
 
 db("
 SELECT ca.email AS email, firstname, lastname, birthday, cl.contract_id IS NOT NULL AS signed

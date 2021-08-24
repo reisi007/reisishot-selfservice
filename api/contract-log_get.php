@@ -1,5 +1,5 @@
 <?php
-include_once "../db/fetch_multiple.php";
+include_once "../db/fetch_multiple_secured.php";
 
 db("
 SELECT email, timestamp, log_type, hash_value

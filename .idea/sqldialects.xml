@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="SqlDialectMappings">
-    <file url="file://$PROJECT_DIR$/sql/001_Initial.sql" dialect="MariaDB" />
+    <file url="file://$PROJECT_DIR$/sql/001_Contracts.sql" dialect="MariaDB" />
     <file url="file://$PROJECT_DIR$/utils/security.php" dialect="GenericSQL" />
   </component>
   <component name="SqlResolveMappings">
