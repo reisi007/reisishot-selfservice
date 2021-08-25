@@ -4,8 +4,9 @@ include_once "../utils/sql.php";
 
 function db(string $sql)
 {
-    $email = $_GET['email'];
-    $accessKey = $_GET['access_key'];
+    $headers = getallheaders();
+    $email = trim($headers['email']);
+    $accessKey = trim($headers['accessKey']);
 
     $pdo = createMysqlConnection();
 

@@ -5,10 +5,11 @@ include_once "../utils/sql.php";
 include_once "../utils/files.php";
 
 $json = read_body_json();
+$headers = getallheaders();
 
 $itemId = trim($json["item_id"]);
-$email = $_GET['email'];
-$secret = $_GET['access_key'];
+$email = trim($headers['email']);
+$secret = trim($headers['accessKey']);
 
 $pdo = createMysqlConnection();
 $pdo->beginTransaction();

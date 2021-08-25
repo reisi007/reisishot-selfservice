@@ -5,9 +5,10 @@ include_once "../utils/string.php";
 
 (function () {
     $pdo = createMysqlConnection();
+    $headers = getallheaders();
 
-    $email = $_GET['email'];
-    $accessKey = $_GET['access_key'];
+    $email = $headers['email'];
+    $accessKey = $headers['accessKey'];
 
     $getContractSql = "
  SELECT cd.markdown, ci.additional_text, ci.hash_algo, ci.hash_value, ci.id

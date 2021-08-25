@@ -6,7 +6,7 @@ CREATE TABLE waitlist_item
     description    TEXT         NOT NULL,
     available_from DATE         NOT NULL,
     available_to   DATE,
-    max_waiting    INT          NOT NULL DEFAULT -1,
+    max_waiting    INT UNSIGNED,
     sort_index     INT UNSIGNED NOT NULL DEFAULT 0
 );
 

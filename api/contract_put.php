@@ -22,7 +22,7 @@ $person_array = $json["persons"];
 $base_url = trim($json["baseUrl"]);
 
 if (strpos($contract_filename, "\\") !== false || strpos($contract_filename, "/") !== false)
-     throw new Exception("Illegal filename " . $contract_filename);
+    throw new Exception("Illegal filename " . $contract_filename);
 
 // Check if user is allowed to insert
 if (!checkUserInsert($pdo, $insert_user, $insert_pwd)) {

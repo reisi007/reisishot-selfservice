@@ -9,9 +9,10 @@ $pdo = createMysqlConnection();
 $pdo->beginTransaction();
 
 $json = read_body_json();
+$headers = getallheaders();
 
-$email = strtolower(trim($_GET["email"]));
-$access_key = trim($_GET["access_key"]);
+$email = strtolower(trim($headers["email"]));
+$access_key = trim($headers["access_key"]);
 
 $action = strtoupper(trim($json["action"]));
 $base_url = trim($json["baseUrl"]);

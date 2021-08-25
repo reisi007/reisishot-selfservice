@@ -8,7 +8,7 @@ SELECT id,
        description,
        available_from,
        available_to,
-     (SELECT max_waiting -COUNT(*) FROM waitlist_entry WHERE item_id = id) AS max_waiting,
+     IF(ISNULL(max_waiting),NULL,(SELECT max_waiting -COUNT(*) FROM waitlist_entry WHERE item_id = id))AS max_waiting,
        0 AS done_customer,
        0 AS done_internal,
        0 AS registered
