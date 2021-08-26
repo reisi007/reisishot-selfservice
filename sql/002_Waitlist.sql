@@ -13,7 +13,7 @@ CREATE TABLE waitlist_item
 CREATE TABLE waitlist_entry
 (
     item_id       BIGINT       NOT NULL,
-    secret        TEXT         NOT NULL,
+    secret        TEXT(36)     NOT NULL,
     email         VARCHAR(128) NOT NULL,
     firstname     VARCHAR(200) NOT NULL,
     lastname      VARCHAR(200) NOT NULL,
@@ -24,7 +24,7 @@ CREATE TABLE waitlist_entry
     text          TEXT,
     done_customer BIT          NOT NULL DEFAULT 0,
     done_internal BIT          NOT NULL DEFAULT 0,
-    UNIQUE (secret, email),
+    UNIQUE (secret(36), email(128)),
     FOREIGN KEY (item_id) REFERENCES waitlist_item (id)
         ON DELETE CASCADE
 )
