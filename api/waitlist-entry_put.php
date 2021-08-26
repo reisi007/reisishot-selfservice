@@ -9,8 +9,8 @@ $json = read_body_json();
 $headers = getallheaders();
 
 $item_id = trim($json["itemId"]);
-$secret = trim($headers['accessKey']);
-$email = trim($headers['email']);
+$secret = trim($headers['Accesskey']);
+$email = trim($headers['Email']);
 $firstname = trim($json["firstName"]);
 $lastname = trim($json["lastName"]);
 $birthday = trim($json["birthday"]);

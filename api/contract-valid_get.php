@@ -7,8 +7,8 @@ include_once "../utils/string.php";
     $pdo = createMysqlConnection();
     $headers = getallheaders();
 
-    $email = $headers['email'];
-    $accessKey = $headers['accessKey'];
+    $email = $headers['Email'];
+    $accessKey = $headers['Accesskey'];
 
     $getContractSql = "
  SELECT cd.markdown, ci.additional_text, ci.hash_algo, ci.hash_value, ci.id

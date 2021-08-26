@@ -11,8 +11,8 @@ $pdo->beginTransaction();
 $json = read_body_json();
 $headers = getallheaders();
 
-$email = strtolower(trim($headers["email"]));
-$access_key = trim($headers["access_key"]);
+$email = strtolower(trim($headers["Email"]));
+$access_key = trim($headers["Accesskey"]);
 
 $action = strtoupper(trim($json["action"]));
 $base_url = trim($json["baseUrl"]);

@@ -8,8 +8,8 @@ $json = read_body_json();
 $headers = getallheaders();
 
 $itemId = trim($json["item_id"]);
-$email = trim($headers['email']);
-$secret = trim($headers['accessKey']);
+$email = trim($headers['Email']);
+$secret = trim($headers['Accesskey']);
 
 $pdo = createMysqlConnection();
 $pdo->beginTransaction();
