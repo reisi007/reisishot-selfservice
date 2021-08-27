@@ -1,13 +1,15 @@
 CREATE TABLE waitlist_item
 (
     id             BIGINT       NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    short          TEXT(10)     NOT NULL,
     image_id       TEXT         NOT NULL,
     title          TEXT         NOT NULL,
     description    TEXT         NOT NULL,
     available_from DATE         NOT NULL,
     available_to   DATE,
     max_waiting    INT UNSIGNED,
-    sort_index     INT UNSIGNED NOT NULL DEFAULT 0
+    sort_index     INT UNSIGNED NOT NULL DEFAULT 0,
+    UNIQUE (short(10))
 );
 
 CREATE TABLE waitlist_entry

@@ -3,6 +3,7 @@ include_once "../db/fetch_multiple.php";
 
 db("
 SELECT id,
+       short,
        image_id,
        title,
        description,
