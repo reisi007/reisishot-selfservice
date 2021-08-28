@@ -9,20 +9,12 @@ SELECT id,
        description,
        available_from,
        available_to,
-      IF(ISNULL(max_waiting),NULL,(SELECT max_waiting -COUNT(*) FROM waitlist_entry WHERE item_id = id)) AS max_waiting,
+       IF(
+               ISNULL(max_waiting),
+               NULL,
+               (SELECT max_waiting - COUNT(*) FROM waitlist_entry WHERE item_id = id AND NOT done_internal)
+           )                        AS max_waiting,
        (SELECT COUNT(*) > 0
-        FROM waitlist_entry
-        WHERE item_id = id
-          AND email = :email
-          AND secret = :access_key
-          AND done_customer) AS done_customer,
-       (SELECT COUNT(*) > 0
-        FROM waitlist_entry
-        WHERE item_id = id
-          AND email = :email
-          AND secret = :access_key
-          AND done_internal) AS done_internal,
-         (SELECT COUNT(*) > 0
         FROM waitlist_entry
         WHERE item_id = id
           AND email = :email

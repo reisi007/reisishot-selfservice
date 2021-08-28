@@ -20,7 +20,23 @@ $item_result = $pdo->query("SELECT * FROM waitlist_item ORDER BY sort_index");
 
 $items = $item_result->fetchAll(PDO::FETCH_ASSOC);
 
-$entries_statement = $pdo->prepare("SELECT item_id, secret, email, firstname AS 'firstName', lastname AS 'lastName', birthday, availability, phone_number, website, text, done_customer, done_internal FROM waitlist_entry WHERE item_id = :id AND NOT done_internal");
+$entries_statement = $pdo->prepare("
+SELECT item_id,
+       secret,
+       email,
+       firstname AS 'firstName',
+       lastname  AS 'lastName',
+       birthday,
+       availability,
+       phone_number,
+       website,
+       text,
+       done_internal
+FROM waitlist_entry
+WHERE item_id = :id
+  AND NOT done_internal
+");
+
 foreach ($items as $key => &$item) {
     $id = $item["id"];
     $entries_statement->bindParam("id", $id);
