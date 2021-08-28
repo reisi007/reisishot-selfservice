@@ -16,7 +16,19 @@ if (!checkUserInsert($pdo, $user, $pwd)) {
     throw new Exception("Wrong PWD");
 }
 
-$item_result = $pdo->query("SELECT * FROM waitlist_item ORDER BY sort_index");
+$item_result = $pdo->query("
+SELECT id,
+       short,
+       image_id,
+       title,
+       description,
+       available_from,
+       available_to,
+       max_waiting,
+       sort_index
+FROM waitlist_item
+ORDER BY sort_index
+");
 
 $items = $item_result->fetchAll(PDO::FETCH_ASSOC);
 
@@ -34,7 +46,7 @@ SELECT item_id,
        done_internal
 FROM waitlist_entry
 WHERE item_id = :id
-  AND NOT done_internal
+ORDER BY done_internal DESC 
 ");
 
 foreach ($items as $key => &$item) {
