@@ -41,7 +41,7 @@ function setPassword(PDO $connection, string $validUserName, $validPwd, string $
     if ($rowCount == 1)
         return;
 
-    $statement = $connection->prepare("INSERT INTO accesskeymissions(user_id, salt, pwd) VALUES (:user,:salt,:pwd)");
+    $statement = $connection->prepare("INSERT INTO permissions(user_id, salt, pwd) VALUES (:user,:salt,:pwd)");
 
     $statement->bindParam("user", $userName);
     $statement->bindParam("salt", $uuid);
