@@ -1,5 +1,5 @@
 -- Drop Tables if exists
-DROP TABLE IF EXISTS contract_permissions;
+DROP TABLE IF EXISTS permissions;
 DROP TABLE IF EXISTS contract_log;
 DROP TABLE IF EXISTS contract_access;
 DROP TABLE IF EXISTS contract_instances;
@@ -59,9 +59,9 @@ CREATE TABLE contract_log
 );
 
 -- Access permissions
-CREATE TABLE contract_permissions
+CREATE TABLE permissions
 (
-    user VARCHAR(255) PRIMARY KEY,
-    salt TEXT(36)     NOT NULL,
-    pwd  VARCHAR(255) NOT NULL
-)
+    user_id VARCHAR(255) PRIMARY KEY,
+    salt    TEXT(36)     NOT NULL,
+    pwd     VARCHAR(255) NOT NULL
+);
