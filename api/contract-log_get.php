@@ -1,7 +1,7 @@
 <?php
 include_once "../db/fetch_multiple_secured.php";
 
-db("
+query("
 SELECT email, timestamp, log_type, hash_value
 FROM contract_log cl
 WHERE contract_id = (

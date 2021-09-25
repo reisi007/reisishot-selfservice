@@ -1,7 +1,7 @@
 <?php
 include_once "../db/fetch_multiple.php";
 
-db("
+query("
 SELECT id,
        short,
        image_id,

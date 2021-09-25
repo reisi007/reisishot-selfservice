@@ -1,7 +1,7 @@
 <?php
 include_once "../db/fetch_multiple_secured.php";
 
-db("
+query("
 SELECT ca.email AS email, firstname, lastname, birthday, cl.contract_id IS NOT NULL AS signed
 FROM (
          SELECT contract_id, email, firstname, lastname, birthday

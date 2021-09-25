@@ -1,7 +1,7 @@
 <?php
 include_once "../db/fetch_single_secured.php";
 
-db("
+query("
 SELECT access_key,
        email,
        firstname,

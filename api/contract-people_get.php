@@ -11,7 +11,7 @@ $pwd = trim($headers["Accesskey"]);
 if (!checkUserInsert($connection, $user, $pwd))
     throw new Exception("Wrong PWD");
 
-db("
+query("
 SELECT DISTINCT firstname AS 'firstName', lastname AS 'lastName', birthday, email
 FROM contract_access
 ORDER BY lastname, firstname, birthday, email

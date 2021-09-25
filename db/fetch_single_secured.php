@@ -2,19 +2,32 @@
 include_once "../header/json.php";
 include_once "../utils/sql.php";
 
-function db(string $sql)
+/**
+ * @throws JsonException
+ */
+function query(string $sql, \PDO $pdo = null)
+{
+    if ($pdo == null)
+        $pdo = createMysqlConnection();
+    $result = select($sql, $pdo);
+    echo json_encode($result, JSON_THROW_ON_ERROR);
+}
+
+/**
+ * @param string $sql
+ * @param PDO $pdo
+ * @return array
+ */
+function select(string $sql, \PDO $pdo): array
 {
     $headers = getallheaders();
 
     $email = trim($headers['Email']);
     $accessKey = trim($headers['Accesskey']);
 
-    $pdo = createMysqlConnection();
-
     $statement = $pdo->prepare($sql);
     $statement->bindParam("email", $email);
     $statement->bindParam("access_key", $accessKey);
     $statement->execute();
-    $result = $statement->fetch(PDO::FETCH_ASSOC);
-    echo json_encode($result, JSON_THROW_ON_ERROR);
+    return $statement->fetch(PDO::FETCH_ASSOC);
 }
