@@ -16,7 +16,7 @@ function query(string $sql, \PDO $pdo = null)
 /**
  * @param string $sql
  * @param PDO $pdo
- * @return array
+ * @return array|boolean
  */
 function select(string $sql, \PDO $pdo): array
 {
