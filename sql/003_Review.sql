@@ -9,4 +9,6 @@ CREATE TABLE reviews
     review_public  TEXT         NOT NULL,
 
     PRIMARY KEY (access_key(36))
-)
+);
+
+CREATE INDEX reviews_email USING HASH ON reviews (email(128)) ALGORITHM NOCOPY
