@@ -1,5 +1,4 @@
 <?php
-include_once "../header/json.php";
 include_once "../utils/sql.php";
 
 /**
@@ -7,6 +6,7 @@ include_once "../utils/sql.php";
  */
 function query(string $sql, \PDO $pdo = null)
 {
+    include_once "../header/json.php";
     if ($pdo == null)
         $pdo = createMysqlConnection();
     $result = select($sql, $pdo);

@@ -14,7 +14,7 @@ $secret = trim($headers['Accesskey']);
 $pdo = createMysqlConnection();
 $pdo->beginTransaction();
 
-$statement = $pdo->prepare("DELETE FROM waitlist_entry WHERE item_id = :itemId AND email = :email AND secret = :access_key");
+$statement = $pdo->prepare("DELETE FROM waitlist_entry WHERE item_id = :itemId AND person = (SELECT id FROM waitlist_person WHERE email = :email AND access_key = :access_key)");
 $statement->bindParam("email", $email);
 $statement->bindParam("access_key", $secret);
 $statement->bindParam("itemId", $itemId);

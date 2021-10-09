@@ -20,14 +20,7 @@ function query(string $sql, \PDO $pdo = null)
  */
 function select(string $sql, \PDO $pdo): array
 {
-    $headers = getallheaders();
-
-    $email = trim($headers['Email']);
-    $accessKey = trim($headers['Accesskey']);
-
-    $statement = $pdo->prepare($sql);
-    $statement->bindParam("email", $email);
-    $statement->bindParam("access_key", $accessKey);
+    $statement = $pdo->query($sql);
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
 }

@@ -8,30 +8,29 @@ include_once "../utils/files.php";
 $json = read_body_json();
 $headers = getallheaders();
 
-$item_id = trim($json["itemId"]);
-$secret = trim($headers['Accesskey']);
 $email = trim($headers['Email']);
-$firstname = trim($json["firstName"]);
-$lastname = trim($json["lastName"]);
-$birthday = trim($json["birthday"]);
-$availability = trim($json["availability"]);
-$phone_number = trim($json["phone_number"]);
-$website = trim($json["website"]);
+$access_key = trim($headers['Accesskey']);
+
+$item_id = trim($json["item_id"]);
 $text = trim($json["text"]);
 
 $pdo = createMysqlConnection();
 
-$statement = $pdo->prepare("INSERT INTO waitlist_entry(item_id, secret, email, firstname, lastname, birthday, availability, phone_number, website, text) VALUES (:item_id, :secret, :email, :firstname, :lastname, :birthday, :availability, :phone_number, :website, :text)");
+$check = $pdo->prepare("SELECT id, firstname, lastname, birthday, availability, phone_number, website FROM waitlist_person WHERE email = :email AND access_key = :access_key");
+$check->bindParam("email", $email);
+$check->bindParam("access_key", $access_key);
+$check->execute();
+
+$person = $check->fetch(PDO::FETCH_ASSOC);
+
+if ($person === false)
+    throw new Exception("Person not found!");
+
+$personId = $person["id"];
+$statement = $pdo->prepare("INSERT INTO waitlist_entry(item_id, person, text) VALUES (:item_id, :person, :text)");
 
 $statement->bindParam("item_id", $item_id);
-$statement->bindParam("secret", $secret);
-$statement->bindParam("email", $email);
-$statement->bindParam("firstname", $firstname);
-$statement->bindParam("lastname", $lastname);
-$statement->bindParam("birthday", $birthday);
-$statement->bindParam("availability", $availability);
-$statement->bindParam("phone_number", $phone_number);
-$statement->bindParam("website", $website);
+$statement->bindParam("person", $personId);
 $statement->bindParam("text", $text);
 
 $statement->execute();
@@ -58,6 +57,13 @@ if ($cnt > $maxWaiting)
 
 $pdo->commit();
 
+$firstname = $person['firstname'];
+$lastname = $person['lastname'];
+$birthday = $person['birthday'];
+$website = $person['website'];
+$availability = $person['availability'];
+$phone = $person['phone_number'];
+
 sendMail("waitlist@reisishot.pictures", "florian@reisishot.pictures", "Neue Registrierung für $title",
     "
     <h1>Neue Registrierung für $title</h1>
@@ -65,5 +71,6 @@ sendMail("waitlist@reisishot.pictures", "florian@reisishot.pictures", "Neue Regi
     <p>$birthday</p>
     <p>$website</p>
     <p>$availability</p>
+    <p>$phone</p>
     <p><b>$text</b></p>
     ");
