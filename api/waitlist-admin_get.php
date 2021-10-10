@@ -34,7 +34,11 @@ $items = $item_result->fetchAll(PDO::FETCH_ASSOC);
 
 $entries_statement = $pdo->prepare("
 SELECT item_id,
-       secret,
+       person,
+       text,
+       done_customer,
+       done_internal,
+       id,
        email,
        firstname AS 'firstName',
        lastname  AS 'lastName',
@@ -42,9 +46,9 @@ SELECT item_id,
        availability,
        phone_number,
        website,
-       text,
-       done_internal
-FROM waitlist_entry
+       access_key
+FROM waitlist_entry we
+         JOIN waitlist_person wp ON we.person = wp.id
 WHERE item_id = :id
 ORDER BY done_internal DESC 
 ");
