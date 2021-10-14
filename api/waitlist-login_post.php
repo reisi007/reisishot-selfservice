@@ -21,7 +21,10 @@ if ($statement->rowCount() != 1)
     throw new Exception("Could not insert new person");
 
 $pdo->commit();
+
+$url = "https://service.reisishot.pictures/waitlist/$email/$access_key";
+
 sendMail("waitlist@reisishot.pictures", $email, "Zugang zur Warteliste", "
 <h1>Zugang zur Warteliste</h1>
-<p><a='https://service.reisishot.pictures/waitlist/$email/$access_key'>Bitte klicke hier, um dich für Shootings anzumelden</a></p>
+<p><a='$url'>Bitte klicke hier, um dich für Shootings anzumelden</a></p>
 ");

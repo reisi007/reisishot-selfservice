@@ -17,5 +17,9 @@ if (!checkUserInsert($pdo, $user, $pwd)) {
     throw new Exception("Wrong PWD");
 }
 
-query("SELECT * FROM reviews");
+query("
+SELECT access_key, email, rating, name, creation_date, review_private, review_public
+FROM reviews
+ORDER BY creation_date DESC
+");
 

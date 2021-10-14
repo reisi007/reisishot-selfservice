@@ -128,6 +128,9 @@ function sendMailInternal(array $person, string $endDate, string $baseUrl, strin
     $formattedDate = date("d.m.Y H:i", strtotime($endDate));
 
     $to = $person["email"];
+
+    $url = "$baseUrl/contracts/$to/$access_key";
+
     sendMail(
         "contracts@reisishot.pictures",
         $to,
@@ -135,7 +138,7 @@ function sendMailInternal(array $person, string $endDate, string $baseUrl, strin
         "
 <h1>Zugriff zu deinem Vertrag</h1>
  <p>
-  Bitte benutze den folgenden Link, um zu deinem Vertrag zu kommen: <a href='$baseUrl/contracts/$to/$access_key'>Link zum Vertrag</a>
+  Bitte benutze den folgenden Link, um zu deinem Vertrag zu kommen: <a href='$url'>Link zum Vertrag</a> ($url)
 </p><p>
 Der Vertrag kann bis spätestens $formattedDate unterschrieben werden!
 </p>
