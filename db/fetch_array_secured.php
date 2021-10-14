@@ -6,6 +6,7 @@ include_once "fetch_array_secured.php";
  */
 function query(array $sqls, \PDO $pdo = null)
 {
+    include_once "../header/json.php";
     $results = array();
     if ($pdo == null)
         $pdo = createMysqlConnection();

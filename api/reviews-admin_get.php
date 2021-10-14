@@ -14,7 +14,7 @@ $pdo = createMysqlConnection();
 
 // Check if user is allowed to insert
 if (!checkUserInsert($pdo, $user, $pwd)) {
-    throw new Exception("Wrong PWD");
+    throw new Exception("Wrong PWD $user $pwd");
 }
 
 query("
