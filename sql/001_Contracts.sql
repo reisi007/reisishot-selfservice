@@ -1,9 +1,3 @@
--- Drop Tables if exists
-DROP TABLE IF EXISTS permissions;
-DROP TABLE IF EXISTS contract_log;
-DROP TABLE IF EXISTS contract_access;
-DROP TABLE IF EXISTS contract_instances;
-DROP TABLE IF EXISTS contract_data;
 --
 -- Create Tables
 --
