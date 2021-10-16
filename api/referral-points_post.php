@@ -1,6 +1,7 @@
 <?php
 include_once "../header/required.php";
 include_once "../utils/security.php";
+include_once "../utils/files.php";
 include_once "../utils/sql.php";
 include_once "../feature/referral/index.php";
 
