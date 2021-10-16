@@ -40,26 +40,14 @@ function addReferralPoints(\PDO $pdo, string $referredPerson, string $type)
  */
 function addReferralPointsDirect(PDO $pdo, string $referrer, string $type): void
 {
-    switch ($type) {
-        case "waitlist_register":
-        case "shooting_good":
-            $points = 25;
-            break;
-        case "shooting_bad":
-            $points = -100;
-            break;
-        default:
-            throw new Exception("Type $type is not known");
-    }
 
 
     $statement = $pdo->prepare("
-INSERT INTO referral_points_raw(referrer, type, value)
-VALUES (:r, :t, :p)
+INSERT INTO referral_points_raw(referrer, type)
+VALUES (:r, :t)
 ");
     $statement->bindParam("r", $referrer);
     $statement->bindParam("t", $type);
-    $statement->bindParam("p", $points);
     $statement->execute();
 
     if ($statement->rowCount() != 1)
