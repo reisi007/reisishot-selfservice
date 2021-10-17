@@ -40,17 +40,19 @@ SELECT item_id,
        done_internal,
        id,
        email,
-       firstname AS 'firstName',
-       lastname  AS 'lastName',
+       firstname              AS 'firstName',
+       lastname               AS 'lastName',
        birthday,
        availability,
        phone_number,
        website,
-       access_key
+       access_key,
+       COALESCE(rp.points, 0) AS points
 FROM waitlist_entry we
          JOIN waitlist_person wp ON we.person = wp.id
+         LEFT OUTER JOIN referral_points rp ON rp.referrer = wp.email
 WHERE item_id = :id
-ORDER BY done_internal DESC 
+ORDER BY done_internal DESC, points DESC 
 ");
 
 foreach ($items as $key => &$item) {
