@@ -19,6 +19,12 @@ ON DUPLICATE KEY UPDATE referrer = :r
         throw new Exception("referral could not be set");
 }
 
+/**
+ * @param PDO $pdo
+ * @param string $referredPerson
+ * @param string $type
+ * @throws Exception
+ */
 function addReferralPoints(\PDO $pdo, string $referredPerson, string $type)
 {
     $check = $pdo->prepare("SELECT referrer FROM referral_info WHERE referred_person = :rp");
@@ -52,10 +58,4 @@ VALUES (:r, :t)
 
     if ($statement->rowCount() != 1)
         throw new Exception("referral points could not be set");
-}
-
-function setReferralAndAddPoints(\PDO $pdo, string|null $referrer, string $referredPerson, string $type)
-{
-    setReferral($pdo, $referrer, $referredPerson);
-    addReferralPoints($pdo, $referredPerson, $type);
 }

@@ -2,7 +2,7 @@
 include_once "../header/json.php";
 include_once "../utils/sql.php";
 include_once "../utils/security.php";
-
+include_once "../db/fetch_multiple.php";
 
 $headers = getallheaders();
 
@@ -62,5 +62,14 @@ foreach ($items as $key => &$item) {
     $item["registrations"] = $entries_statement->fetchAll(PDO::FETCH_ASSOC);
 }
 
-echo json_encode($items, JSON_THROW_ON_ERROR);
+$response = array();
+$response["registrations"] = $items;
+$response["leaderboard"] = select("
+SELECT referrer, points
+FROM referral_points rp
+ORDER BY points DESC, referrer DESC 
+", $pdo);
+
+
+echo json_encode($response, JSON_THROW_ON_ERROR);
 

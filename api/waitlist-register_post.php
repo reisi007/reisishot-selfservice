@@ -44,7 +44,15 @@ if ($result === false) {
 if ($statement->rowCount() != 1)
     throw new Exception("Could not insert new person");
 
-setReferralAndAddPoints($pdo, $referrer, $email, 'waitlist_register');
+// Add referral
+
+// Store referral information
+setReferral($pdo, $referrer, $email);
+// Give points to referrer if exists
+if ($referrer != null)
+    addReferralPoints($pdo, $referrer, 'waitlist_register');
+// Give points to the person, who registered
+addReferralPointsDirect($pdo, $email, 'waitlist_register');
 
 $pdo->commit();
 
