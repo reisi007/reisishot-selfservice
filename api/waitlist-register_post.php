@@ -53,7 +53,7 @@ if ($referrer != null && $referrer != $email) {
     addReferralPoints($pdo, $referrer, 'waitlist_register');
 }
 // Give points to the person, who registered
-addReferralPointsDirect($pdo, $email, 'waitlist_register');
+addReferralPointsDirect($pdo, $email, 'waitlist_register_self');
 
 $pdo->commit();
 

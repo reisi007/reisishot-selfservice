@@ -25,6 +25,8 @@ INSERT INTO referral_values (id, display, value)
 VALUES ('shooting_good', 'Positive Shootingerfahrung', 25);
 INSERT INTO referral_values (id, display, value)
 VALUES ('waitlist_register', 'Registrierung einer Person via Referral Link', 25);
+INSERT INTO referral_values (id, display, value)
+VALUES ('waitlist_register_self', 'Bonus für die Registrierung', 25);
 
 CREATE TABLE referral_points_raw
 (
@@ -41,3 +43,11 @@ FROM referral_points_raw rpr
          JOIN referral_values rv ON rpr.type = rv.id
 GROUP BY referrer;
 
+
+CREATE TABLE referral_values
+(
+    id      VARCHAR(50)  NOT NULL
+        PRIMARY KEY,
+    display VARCHAR(128) NOT NULL,
+    value   SMALLINT     NOT NULL
+);
