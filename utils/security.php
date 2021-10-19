@@ -19,10 +19,12 @@ function checkUserInsert(PDO $connection, string $userName, string $pwd): bool
 
 function setPassword(PDO $connection, string $validUserName, $validPwd, string $userName, string $pwd)
 {
+    include_once "uuid.php";
+
     if (!checkUserInsert($connection, $validUserName, $validPwd))
         throw new Exception("Invalid username / PWD");
 
-    $uuid = uuid($connection);
+    $uuid = uuid();
 
     $newPwd = password_hash($pwd . $uuid, PASSWORD_BCRYPT, array("cost" => 10));
 

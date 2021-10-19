@@ -7,9 +7,3 @@ function createMysqlConnection(): PDO
     $pdo->setAttribute(PDO::ATTR_AUTOCOMMIT, 0);
     return $pdo;
 }
-
-function uuid(PDO $pdo)
-{
-    $stmt = $pdo->query("SELECT UUID()");
-    return $stmt->fetchColumn();
-}

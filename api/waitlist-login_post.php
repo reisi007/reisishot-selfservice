@@ -3,6 +3,7 @@ include_once "../header/json.php";
 include_once "../utils/sql.php";
 include_once "../utils/mail.php";
 include_once "../utils/files.php";
+include_once "../utils/uuid.php";
 include_once "../feature/referral/index.php";
 
 $json = read_body_json();
@@ -13,7 +14,7 @@ $email = trim($json['email']);
 $pdo = createMysqlConnection();
 $pdo->beginTransaction();
 
-$access_key = uuid($pdo);
+$access_key = uuid();
 
 $statement = $pdo->prepare("UPDATE waitlist_person SET access_key = :access_key WHERE email = :email");
 $statement->bindParam("email", $email);

@@ -4,6 +4,7 @@ include_once "../utils/security.php";
 include_once "../utils/sql.php";
 include_once "../utils/mail.php";
 include_once "../utils/files.php";
+include_once "../utils/uuid.php";
 
 (function () {
 
@@ -52,7 +53,7 @@ WHERE email = :email
         return;
     }
 
-    $access_key = uuid($pdo);
+    $access_key = uuid();
 
     $statement = $pdo->prepare("
 INSERT INTO reviews(access_key, email, rating, name, review_private, review_public)

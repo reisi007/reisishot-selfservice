@@ -5,6 +5,7 @@ include_once "../utils/string.php";
 include_once "../utils/sql.php";
 include_once "../utils/mail.php";
 include_once "../utils/files.php";
+include_once "../utils/uuid.php";
 
 const hash_algo = "sha3-512";
 
@@ -106,7 +107,8 @@ function insertPermissions(PDO $pdo, array $persons, string $id, string $dueDate
 {
     $insert = $pdo->prepare("INSERT INTO contract_access(contract_id,access_key ,email,firstname,lastname,birthday) VALUES (:id,:key,:email,:first,:last,:birthday)");
     foreach ($persons as $key => $person) {
-        $uuid = uuid($pdo);
+
+        $uuid = uuid();
         $email = strtolower(trim($person["email"]));
         $firstName = ucwords(trim($person["firstName"]));
         $lastName = ucwords(trim($person["lastName"]));

@@ -15,7 +15,7 @@ CREATE TABLE waitlist_item
 CREATE TABLE waitlist_person
 (
     id           BIGINT       NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    email        VARCHAR(128) UNIQUE,
+    email        VARCHAR(128) NOT NULL UNIQUE,
     firstname    VARCHAR(200) NOT NULL,
     lastname     VARCHAR(200) NOT NULL,
     birthday     DATE         NOT NULL,

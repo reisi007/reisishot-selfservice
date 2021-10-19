@@ -3,6 +3,7 @@ include_once "../header/json.php";
 include_once "../utils/sql.php";
 include_once "../utils/mail.php";
 include_once "../utils/files.php";
+include_once "../utils/uuid.php";
 include_once "../feature/referral/index.php";
 
 $json = read_body_json();
@@ -20,7 +21,7 @@ $website = trim($json["website"]);
 $pdo = createMysqlConnection();
 $pdo->beginTransaction();
 
-$access_key = uuid($pdo);
+$access_key = uuid();
 
 $statement = $pdo->prepare("
 INSERT INTO waitlist_person(email, firstname, lastname, birthday, availability, phone_number, website, access_key)
@@ -45,12 +46,12 @@ if ($statement->rowCount() != 1)
     throw new Exception("Could not insert new person");
 
 // Add referral
-
-// Store referral information
-setReferral($pdo, $referrer, $email);
-// Give points to referrer if exists
-if ($referrer != null)
+if ($referrer != null && $referrer != $email) {
+    // Store referral information
+    setReferral($pdo, $referrer, $email);
+    // Give points to referrer if exists
     addReferralPoints($pdo, $referrer, 'waitlist_register');
+}
 // Give points to the person, who registered
 addReferralPointsDirect($pdo, $email, 'waitlist_register');
 

@@ -11,6 +11,21 @@ CREATE TABLE referral_values
     value   SMALLINT     NOT NULL
 );
 
+INSERT INTO referral_values (id, display, value)
+VALUES ('manual_thx_100', 'Manuelle Änderung +100', 100);
+INSERT INTO referral_values (id, display, value)
+VALUES ('perk_more-people', 'Shooting mit mehreren Personen (ausgenommen Pärchen)', -50);
+INSERT INTO referral_values (id, display, value)
+VALUES ('perk_no-public', 'Shooting ohne verpflichtende Veröffentlichung von Bildern', -100);
+INSERT INTO referral_values (id, display, value)
+VALUES ('perk_pics_25+', 'Mehr als 25 Bilder (< 35 Bilder) bei einem Shooting', -25);
+INSERT INTO referral_values (id, display, value)
+VALUES ('shooting_bad', 'Negative Shootingerfahrung', -100);
+INSERT INTO referral_values (id, display, value)
+VALUES ('shooting_good', 'Positive Shootingerfahrung', 25);
+INSERT INTO referral_values (id, display, value)
+VALUES ('waitlist_register', 'Registrierung einer Person via Referral Link', 25);
+
 CREATE TABLE referral_points_raw
 (
     referrer  VARCHAR(128) NOT NULL,
@@ -19,7 +34,6 @@ CREATE TABLE referral_points_raw
 
     FOREIGN KEY (type) REFERENCES referral_values (id)
 );
-
 
 CREATE OR REPLACE VIEW referral_points AS
 SELECT referrer, SUM(value) AS points
