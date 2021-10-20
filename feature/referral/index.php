@@ -21,20 +21,18 @@ ON DUPLICATE KEY UPDATE referrer = :r
 
 /**
  * @param PDO $pdo
- * @param string $referredPerson
+ * @param string $person
  * @param string $type
  * @throws Exception
  */
-function addReferralPoints(\PDO $pdo, string $referredPerson, string $type)
+function addReferralPoints(\PDO $pdo, string $person, string $type)
 {
     $check = $pdo->prepare("SELECT referrer FROM referral_info WHERE referred_person = :rp");
-    $check->bindParam("rp", $referredPerson);
+    $check->bindParam("rp", $person);
     $check->execute();
     $referrer = $check->fetchColumn();
-    if ($referrer === false)
-        $referrer = $referredPerson;
-
-    addReferralPointsDirect($pdo, $referrer, $type);
+    if ($referrer !== false)
+        addReferralPointsDirect($pdo, $referrer, $type);
 }
 
 /**
@@ -46,8 +44,6 @@ function addReferralPoints(\PDO $pdo, string $referredPerson, string $type)
  */
 function addReferralPointsDirect(PDO $pdo, string $referrer, string $type): void
 {
-
-
     $statement = $pdo->prepare("
 INSERT INTO referral_points_raw(referrer, type)
 VALUES (:r, :t)

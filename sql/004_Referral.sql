@@ -1,7 +1,7 @@
 CREATE TABLE referral_info
 (
-    referred_person VARCHAR(128) PRIMARY KEY,
-    referrer        VARCHAR(128) NOT NULL
+    referrer        VARCHAR(128) NOT NULL,
+    referred_person VARCHAR(128) PRIMARY KEY
 );
 
 CREATE TABLE referral_values

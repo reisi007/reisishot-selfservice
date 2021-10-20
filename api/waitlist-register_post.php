@@ -49,9 +49,11 @@ if ($statement->rowCount() != 1)
 if ($referrer != null && $referrer != $email) {
     // Store referral information
     setReferral($pdo, $referrer, $email);
-    // Give points to referrer if exists
-    addReferralPoints($pdo, $referrer, 'waitlist_register');
 }
+
+// Give points to referrer
+addReferralPoints($pdo, $email, 'waitlist_register');
+
 // Give points to the person, who registered
 addReferralPointsDirect($pdo, $email, 'waitlist_register_self');
 
