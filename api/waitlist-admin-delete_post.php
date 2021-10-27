@@ -2,31 +2,29 @@
 include_once "../header/required.php";
 include_once "../utils/security.php";
 include_once "../utils/sql.php";
+include_once "../utils/files.php";
+include_once "../utils/authed_only.php";
+
+$json = read_body_json();
+
+$person = trim($json['person']);
+$itemId = trim($json['item']);
 
 $pdo = createMysqlConnection();
 $pdo->beginTransaction();
 
-$headers = getallheaders();
-
-$email = strtolower(trim($headers["Email"]));
-$access_key = trim($headers["Accesskey"]);
-
-if (!checkUserInsert($pdo, $email, $access_key))
-    throw new Exception("Wrong PWD");
-
-$id = $_GET['id'];
-
 $statement = $pdo->prepare("
 DELETE
 FROM waitlist_entry
-WHERE item_id = :id
+WHERE item_id = :id AND person = :person
 ");
 
-$statement->bindParam("id", $id);
+$statement->bindParam("id", $itemId);
+$statement->bindParam("person", $person);
 $statement->execute();
 
 if ($statement->rowCount() != 1) {
-    throw new Exception("Wrong numbe of rows changed");
+    throw new Exception("Wrong number of rows changed {$statement->rowCount()} - $id - $person");
 }
 
 $pdo->commit();

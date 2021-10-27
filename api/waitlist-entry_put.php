@@ -64,7 +64,7 @@ $website = $person['website'];
 $availability = $person['availability'];
 $phone = $person['phone_number'];
 
-sendMail("waitlist@reisishot.pictures", "florian@reisishot.pictures", "Neue Registrierung für $title",
+sendMail("waitlist@reisishot.pictures", "florian@reisishot.pictures", "[NEU] $firstname $lastname - $title",
     "
     <h1>Neue Registrierung für $title</h1>
     <p>$firstname $lastname</p>

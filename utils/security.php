@@ -55,3 +55,4 @@ function setPassword(PDO $connection, string $validUserName, $validPwd, string $
         throw new Exception("Could not insert new user");
 
 }
+

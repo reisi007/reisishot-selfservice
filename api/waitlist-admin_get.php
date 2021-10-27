@@ -1,20 +1,9 @@
 <?php
 include_once "../header/json.php";
-include_once "../utils/sql.php";
-include_once "../utils/security.php";
-include_once "../db/fetch_multiple.php";
+include_once "../db/fetch_multiple_authed.php";
 
 $headers = getallheaders();
-
-$user = trim($headers["Email"]);
-$pwd = trim($headers["Accesskey"]);
-
 $pdo = createMysqlConnection();
-
-// Check if user is allowed to insert
-if (!checkUserInsert($pdo, $user, $pwd)) {
-    throw new Exception("Wrong PWD");
-}
 
 $item_result = $pdo->query("
 SELECT id,
@@ -34,11 +23,10 @@ $items = $item_result->fetchAll(PDO::FETCH_ASSOC);
 
 $entries_statement = $pdo->prepare("
 SELECT item_id,
-       person,
+       wp.id                  AS 'person_id',
        text,
        done_customer,
        done_internal,
-       id,
        email,
        firstname              AS 'firstName',
        lastname               AS 'lastName',
@@ -53,6 +41,7 @@ FROM waitlist_entry we
          LEFT OUTER JOIN referral_points rp ON rp.referrer = wp.email
 WHERE item_id = :id
 ORDER BY done_internal DESC, points DESC 
+
 ");
 
 foreach ($items as $key => &$item) {
@@ -64,12 +53,7 @@ foreach ($items as $key => &$item) {
 
 $response = array();
 $response["registrations"] = $items;
-$response["leaderboard"] = select("
-SELECT referrer, points
-FROM referral_points rp
-ORDER BY points DESC, referrer DESC 
-", $pdo);
-
+$response["leaderboard"] = select("SELECT referrer, points FROM referral_points", $pdo);
 
 echo json_encode($response, JSON_THROW_ON_ERROR);
 
