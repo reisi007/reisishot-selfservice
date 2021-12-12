@@ -45,7 +45,7 @@ CREATE TABLE referral_points_raw
 );
 
 CREATE OR REPLACE ALGORITHM = TEMPTABLE VIEW referral_points_intermediate AS
-SELECT referrer, type, SUM(value) AS points
+SELECT referrer, type, YEAR(timestamp) AS year, SUM(value) AS points
 FROM referral_points_raw rpr
          JOIN referral_values rv ON rpr.type = rv.id
 GROUP BY referrer, type

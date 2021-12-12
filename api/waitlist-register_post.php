@@ -9,7 +9,7 @@ include_once "../feature/referral/index.php";
 $json = read_body_json();
 
 $referrer = isset($json['referrer']) ? trim($json['referrer']) : null;
-$email = trim($json['email']);
+$email = strtolower(trim($json['email']));
 $firstname = trim($json["firstName"]);
 $lastname = trim($json["lastName"]);
 $birthday = trim($json["birthday"]);

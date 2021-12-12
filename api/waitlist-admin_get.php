@@ -1,6 +1,7 @@
 <?php
 include_once "../header/json.php";
 include_once "../db/fetch_multiple_authed.php";
+include_once "../utils/authed_only.php";
 
 $headers = getallheaders();
 $pdo = createMysqlConnection();

@@ -24,7 +24,7 @@ $statement->bindParam("person", $person);
 $statement->execute();
 
 if ($statement->rowCount() != 1) {
-    throw new Exception("Wrong number of rows changed {$statement->rowCount()} - $id - $person");
+    throw new Exception("Wrong number of rows changed {$statement->rowCount()} - $itemId - $person");
 }
 
 $pdo->commit();

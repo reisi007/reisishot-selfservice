@@ -2,7 +2,6 @@
 include_once "../header/required.php";
 include_once "../utils/security.php";
 include_once "../utils/sql.php";
-
 include_once "../utils/files.php";
 include_once "../utils/authed_only.php";
 
@@ -25,7 +24,7 @@ $statement->bindParam("person", $person);
 $statement->execute();
 
 if ($statement->rowCount() != 1) {
-    throw new Exception("Wrong numbe of rows changed");
+    throw new Exception("Wrong number of rows changed");
 }
 
 $pdo->commit();
