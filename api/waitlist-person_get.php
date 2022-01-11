@@ -12,7 +12,6 @@ SELECT id,
        website,
        access_key,
        COALESCE(rp.points, 0)  AS points,
-       COALESCE(rpi.points, 0) AS points,
        COALESCE(rpi.points, 0) AS sortable_points
 FROM waitlist_person wp
          LEFT OUTER JOIN referral_points rp
