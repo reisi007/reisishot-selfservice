@@ -7,7 +7,7 @@ function sendMail(string $from, string $to, string|null $bcc, string $subject, s
     // Create email headers
     $headers .= 'From: ' . $from . "\r\n" .
         'Reply-To: ' . $from . "\r\n" .
-        'X-Mailer: PHP/' . phpversion();
+        'X-Mailer: ReisishotSelfservice/2022';
     if ($bcc != null) {
         $headers .= "\r\n" .
             'Bcc: ' . $bcc;
