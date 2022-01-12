@@ -135,7 +135,7 @@ function sendMailInternal(array $person, string $endDate, string $baseUrl, strin
 
     sendMail(
         "contracts@reisishot.pictures",
-        $to,
+        $to, null,
         "Zugriff zu deinem Vertrag",
         "
 <h1>Zugriff zu deinem Vertrag</h1>

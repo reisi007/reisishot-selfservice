@@ -60,7 +60,7 @@ addReferralPointsDirect($pdo, $email, 'waitlist_register_self');
 $pdo->commit();
 
 $url = "https://service.reisishot.pictures/waitlist/$email/$access_key";
-sendMail("waitlist@reisishot.pictures", $email, "Zugang zur Warteliste", "
+sendMail("waitlist@reisishot.pictures", $email, "florian@reisishot.pictures", "Zugang zur Warteliste", "
 <h1>Zugang zur Warteliste</h1>
 <p><a='$url'>Bitte klicke hier, um dich für Shootings anzumelden</a></p>
 $url

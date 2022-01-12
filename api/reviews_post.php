@@ -79,7 +79,7 @@ VALUES (:access_key, :email, :rating, :name, :review_private, :review_public)
 
     $pdo->commit();
 
-    sendMail("reviews@reisishot.pictures", "reviews@reisishot.pictures", $starCount . ' ★ - Neue Bewertung', "
+    sendMail("reviews@reisishot.pictures", "reviews@reisishot.pictures", null, $starCount . ' ★ - Neue Bewertung', "
     <h1>$name ($email) - $starCount ★ <small>$rating / 100</small></h1>
     <small><a href='https://service.reisishot.pictures/review/$email/$access_key/admin'>Link zur Bewertung</a> </small>
     <p style='white-space: pre;'>$review_public</p>

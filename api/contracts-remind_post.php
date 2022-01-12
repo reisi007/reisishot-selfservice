@@ -72,7 +72,7 @@ if ($res !== false) {
 $body .= "</table>";
 sendMail(
     "contracts@reisishot.pictures",
-    $to,
+    $to, null,
     "Zugriff zu deinen Verträgen",
     $body
 );
