@@ -11,8 +11,9 @@ include_once "../utils/authed_only.php";
 function query(string $sql, \PDO $pdo = null)
 {
     include_once "../header/json.php";
-    if ($pdo == null)
+    if ($pdo == null) {
         $pdo = createMysqlConnection();
+    }
     $result = select($sql, $pdo);
     echo json_encode($result, JSON_THROW_ON_ERROR);
 }

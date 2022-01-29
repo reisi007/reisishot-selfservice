@@ -18,8 +18,9 @@ $user->execute();
 
 $person = $user->fetchColumn();
 
-if ($person === false)
+if ($person === false) {
     throw new Exception("Person not found");
+}
 
 query("
 SELECT id,

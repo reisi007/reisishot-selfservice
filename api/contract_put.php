@@ -7,7 +7,7 @@ include_once "../utils/mail.php";
 include_once "../utils/files.php";
 include_once "../utils/uuid.php";
 
-const hash_algo = "sha3-512";
+const HASH_ALGO = "sha3-512";
 
 $pdo = createMysqlConnection();
 $pdo->beginTransaction();
@@ -22,8 +22,9 @@ $contract_dueDate = trim($json["dueDate"]);
 $person_array = $json["persons"];
 $base_url = trim($json["baseUrl"]);
 
-if (strpos($contract_filename, "\\") !== false || strpos($contract_filename, "/") !== false)
+if (str_contains($contract_filename, "/") || str_contains($contract_filename, "\\")) {
     throw new Exception("Illegal filename " . $contract_filename);
+}
 
 // Check if user is allowed to insert
 if (!checkUserInsert($pdo, $insert_user, $insert_pwd)) {
@@ -33,8 +34,9 @@ if (!checkUserInsert($pdo, $insert_user, $insert_pwd)) {
 // Load file from disk
 
 $contract_data = file_get_contents("../assets/contracts/" . $contract_filename);
-if ($contract_data === false)
+if ($contract_data === false) {
     throw new Exception("Contract not found");
+}
 
 $contract_dbid = insertContract($pdo, $contract_data, $additionalText, $contract_dueDate);
 
@@ -52,14 +54,14 @@ $pdo->commit();
  */
 function insertContract(PDO $pdo, string $contractData, string $additionalText, string $dueDate): string
 {
-    $contractHash = hash(hash_algo, $contractData);
-    $fullHash = hash(hash_algo, combineMd($contractData, $additionalText));
+    $contractHash = hash(HASH_ALGO, $contractData);
+    $fullHash = hash(HASH_ALGO, combineMd($contractData, $additionalText));
     $id = insertContractData($pdo, $contractHash, $contractData);
 
     $stmt = $pdo->prepare("INSERT INTO contract_instances(contract_id, additional_text, hash_algo, hash_value, due_date) VALUES (:contractId,:text,:algo,:hash,:dueDate)");
     $stmt->bindParam("contractId", $id);
     $stmt->bindParam("text", $additionalText);
-    $algo = hash_algo;
+    $algo = HASH_ALGO;
     $stmt->bindParam("algo", $algo);
     $stmt->bindParam("hash", $fullHash);
     $stmt->bindParam("dueDate", $dueDate);
@@ -75,15 +77,16 @@ function insertContract(PDO $pdo, string $contractData, string $additionalText, 
  */
 function insertContractData(PDO $pdo, string $hashedData, string $contraxtData): int
 {
-    $hash_algo = hash_algo;
+    $hash_algo = HASH_ALGO;
     // Check if contract is already there
     $find = $pdo->prepare("SELECT id FROM contract_data WHERE hash_algo = :algo AND hash_value = :hash");
     $find->bindParam("algo", $hash_algo);
     $find->bindParam("hash", $hashedData);
     $find->execute();
     $column = $find->fetchColumn(0);
-    if ($column !== false)
+    if ($column !== false) {
         return $column;
+    }
 
     $statement = $pdo->prepare("INSERT INTO contract_data(markdown,hash_algo,hash_value) VALUES (:md,:algo,:hash)");
     $statement->bindParam("md", $contraxtData);

@@ -21,8 +21,9 @@ function setPassword(PDO $connection, string $validUserName, $validPwd, string $
 {
     include_once "uuid.php";
 
-    if (!checkUserInsert($connection, $validUserName, $validPwd))
+    if (!checkUserInsert($connection, $validUserName, $validPwd)) {
         throw new Exception("Invalid username / PWD");
+    }
 
     $uuid = uuid();
 
@@ -38,10 +39,12 @@ function setPassword(PDO $connection, string $validUserName, $validPwd, string $
     $statement->execute();
 
     $rowCount = $statement->rowCount();
-    if ($rowCount > 1)
+    if ($rowCount > 1) {
         throw new Exception("Too many rows changed!");
-    if ($rowCount == 1)
+    }
+    if ($rowCount == 1) {
         return;
+    }
 
     $statement = $connection->prepare("INSERT INTO permissions(user_id, salt, pwd) VALUES (:user,:salt,:pwd)");
 
@@ -51,8 +54,9 @@ function setPassword(PDO $connection, string $validUserName, $validPwd, string $
 
     $statement->execute();
 
-    if ($statement->rowCount() != 1)
+    if ($statement->rowCount() != 1) {
         throw new Exception("Could not insert new user");
+    }
 
 }
 

@@ -42,8 +42,9 @@ if ($result === false) {
     return;
 }
 
-if ($statement->rowCount() != 1)
+if ($statement->rowCount() != 1) {
     throw new Exception("Could not insert new person");
+}
 
 // Add referral
 if ($referrer != null && $referrer != $email) {
