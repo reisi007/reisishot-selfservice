@@ -20,7 +20,8 @@ $statement->bindParam("access_key", $secret);
 $statement->bindParam("itemId", $itemId);
 $statement->execute();
 
-if ($statement->rowCount() != 1)
+if ($statement->rowCount() != 1) {
     throw new Exception("Statement did not affect one row...");
+}
 
 $pdo->commit();

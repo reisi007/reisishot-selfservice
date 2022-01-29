@@ -17,8 +17,9 @@ include_once "../utils/uuid.php";
     $email = strtolower(trim($headers["Email"]));
     $access_key = trim($headers["Accesskey"]);
 
-    if ($access_key == "")
+    if ($access_key == "") {
         $access_key = null;
+    }
 
     $rating = $json["rating"];
     $name = $json["name"];
@@ -46,8 +47,9 @@ WHERE email = :email
 
         $statement->execute();
 
-        if ($statement->rowCount() > 1)
+        if ($statement->rowCount() > 1) {
             throw new Exception("Could not insert new rating");
+        }
 
         echo "{\"access_key\":\"$access_key\"}";
         return;
@@ -69,8 +71,9 @@ VALUES (:access_key, :email, :rating, :name, :review_private, :review_public)
 
     $statement->execute();
 
-    if ($statement->rowCount() != 1)
+    if ($statement->rowCount() != 1) {
         throw new Exception("Could not insert new review");
+    }
 
 
     $starCount = roundStars($rating / 20);

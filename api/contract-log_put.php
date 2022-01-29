@@ -37,8 +37,9 @@ $stmt->bindParam("access_key", $access_key);
 $stmt->execute();
 $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if ($data === false)
+if ($data === false) {
     return;
+}
 $hash_value = $data["hash_value"];
 
 

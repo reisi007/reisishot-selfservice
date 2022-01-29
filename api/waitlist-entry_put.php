@@ -23,8 +23,9 @@ $check->execute();
 
 $person = $check->fetch(PDO::FETCH_ASSOC);
 
-if ($person === false)
+if ($person === false) {
     throw new Exception("Person not found!");
+}
 
 $personId = $person["id"];
 $statement = $pdo->prepare("INSERT INTO waitlist_entry(item_id, person, text) VALUES (:item_id, :person, :text)");
@@ -52,8 +53,9 @@ $cnt = $result["cnt"];
 $maxWaiting = $result["max_waiting"];
 $title = $result["title"];
 
-if ($cnt > $maxWaiting)
+if ($cnt > $maxWaiting) {
     throw new Exception("Too many registrations...");
+}
 
 $pdo->commit();
 

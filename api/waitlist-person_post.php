@@ -40,7 +40,8 @@ $statement->bindParam("access_key", $accessKey);
 
 $statement->execute();
 
-if ($statement->rowCount() != 1)
+if ($statement->rowCount() != 1) {
     throw new Exception("Too much changed...");
+}
 
 $pdo->commit();

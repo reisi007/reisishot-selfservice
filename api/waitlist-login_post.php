@@ -22,8 +22,9 @@ $statement->bindParam("access_key", $access_key);
 
 $statement->execute();
 
-if ($statement->rowCount() != 1)
+if ($statement->rowCount() != 1) {
     throw new Exception("Could not insert new person");
+}
 
 
 /** @noinspection PhpUnhandledExceptionInspection */
