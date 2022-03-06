@@ -5,7 +5,7 @@ include_once '../config/calender.conf.php';
 
 $iCal = new iCal(calendar_shooting);
 
-$allEvents = $iCal->eventsByDateSince('today');
+$allEvents = $iCal->eventsByDateSince('-14 days');
 
 $result = array();
 foreach ($allEvents as $date => $events) {
@@ -17,6 +17,7 @@ foreach ($allEvents as $date => $events) {
 
         $startsDt = new DateTime($dateStart);
         $endDt = new DateTime($dateEnd);
+        $endDt->modify("-1 second");
         $startKw = intval($startsDt->format("W"));
         $endKw = intval($endDt->format("W"));
 
