@@ -5,7 +5,7 @@ include_once '../config/calender.conf.php';
 
 $iCal = new iCal(calendar_shooting);
 
-$allEvents = $iCal->eventsByDateSince('-14 days');
+$allEvents = $iCal->eventsByDateSince('-2 months');
 
 $result = array();
 foreach ($allEvents as $date => $events) {
