@@ -1,15 +1,20 @@
 <?php
 
+const KEY_text = "text";
 include_once "../utils/calendar.php";
 include_once "../utils/authed_only.php";
 
-
-$simpleEntry = function (int $kw, bool $isShooting, object $event): array {
+$createEntry = function (int $kw, bool $isShooting, object $event): array {
     return array(
-        "kw" => $kw,
-        "isShooting" => $isShooting,
-        "text" => $event->summary
+        KEY_kw => $kw,
+        KEY_isShooting => $isShooting,
+        KEY_text => $event->summary
     );
 };
 
-accessCalendar($simpleEntry);
+$mergeEntry = function ($original, &$new) {
+    $new[KEY_isShooting] = $new[KEY_isShooting] && $original[KEY_isShooting];
+    $new[KEY_text] = $original[KEY_text] . ' | ' . $new[KEY_text];
+};
+
+accessCalendar($createEntry, $mergeEntry);
