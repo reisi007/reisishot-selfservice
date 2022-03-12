@@ -2,12 +2,15 @@
 
 include_once "../utils/calendar.php";
 
-
-$simpleEntry = function (int $kw, bool $isShooting, object $event): array {
+$createEntry = function (int $kw, bool $isShooting, object $event): array {
     return array(
-        "kw" => $kw,
-        "isShooting" => $isShooting
+        KEY_kw => $kw,
+        KEY_isShooting => $isShooting
     );
 };
 
-accessCalendar($simpleEntry);
+$mergeEntry = function ($original, &$new) {
+    $new[KEY_isShooting] = $new[KEY_isShooting] && $original[KEY_isShooting];
+};
+
+accessCalendar($createEntry, $mergeEntry);
