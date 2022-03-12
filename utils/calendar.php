@@ -14,7 +14,7 @@ function accessCalendar(Closure $resultEntryCreator, Closure|null $mergeEntries 
 {
     if ($mergeEntries == null) {
         $mergeEntries = function ($original, &$new) {
-            $new[KEY_isShooting] = $new[KEY_isShooting] || $original[KEY_isShooting];
+            $new[KEY_isShooting] = $new[KEY_isShooting] && $original[KEY_isShooting];
         };
     }
 
