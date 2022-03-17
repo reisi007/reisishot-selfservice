@@ -14,7 +14,7 @@ $createEntry = function (int $kw, bool $isShooting, object $event): array {
 
 $mergeEntry = function ($original, &$new) {
     $new[KEY_isShooting] = $new[KEY_isShooting] && $original[KEY_isShooting];
-    $new[KEY_text] = $original[KEY_text] . ' | ' . $new[KEY_text];
+    $new[KEY_text] = $original[KEY_text] . ' && ' . $new[KEY_text];
 };
 
 accessCalendar($createEntry, $mergeEntry);
