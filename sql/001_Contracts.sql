@@ -21,7 +21,7 @@ CREATE TABLE contract_instances
     hash_algo       VARCHAR(64)   NOT NULL, -- Used algorithm for hashing
     hash_value      VARCHAR(128)  NOT NULL, -- Hash value for field markdown as calculated by hash_algo
     due_date        DATETIME      NOT NULL, -- Datum + Uhrzeit, bis zu der unterschrieben werden kann
-    FOREIGN KEY (contract_id) REFERENCES contract_data (id)
+    FOREIGN KEY (contract_id) REFERENCES contract_data (id) ON DELETE CASCADE
 );
 
 -- Stores the access "secret"
