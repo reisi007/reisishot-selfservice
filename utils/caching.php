@@ -2,7 +2,7 @@
 
 const CACHE_FOLDER = "../../.service-cache/";
 
-function cache_get(string $cache_key, string $validity): string|null
+function cache_get(string $cache_key, string|null $validity): string|null
 {
     $path = computeCachePath($cache_key);
     if (!file_exists($path)) {
@@ -11,6 +11,9 @@ function cache_get(string $cache_key, string $validity): string|null
 
     $lastEditTime = filemtime($path);
     $cacheEditTimeString = date("Y-m-d H:i:s", $lastEditTime);
+    if ($validity === null) {
+        return $path;
+    }
     $dateTime = new DateTime($cacheEditTimeString);
     $now = new DateTime();
     $dateTime->modify($validity);
@@ -38,12 +41,16 @@ function cache_put(string $cache_key, string|null $data): string|null
     return $path;
 }
 
-function cache_put_url(string $cache_key, string|null $data)
+function cache_put_url(string $cache_key, string|null $url)
 {
-    if ($data == null) {
+    if ($url == null) {
         return cache_put($cache_key, null);
     } else {
-        return cache_put($cache_key, file_get_contents($data));
+        $data = file_get_contents($url);
+        if ($data === false) {
+            return cache_get($cache_key, null);
+        }
+        return cache_put($cache_key, $data);
     }
 }
 
