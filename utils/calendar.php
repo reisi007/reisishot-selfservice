@@ -5,15 +5,23 @@ const KEY_kw = "kw";
 include_once "../header/json.php";
 include_once "../github/iCal.php";
 include_once '../config/calender.conf.php';
+include_once "../utils/caching.php";
 
 /**
  * @param $resultEntryCreator
  * @param $mergeEntries
  * @return void
  */
-function accessCalendar($resultEntryCreator, $mergeEntries): void
+function accessCalendar($resultEntryCreator, $mergeEntries, string $validity): void
 {
-    $iCal = new iCal(calendar_shooting);
+    $CACHE_KEY = "shooting_calendar";
+    $url = cache_get($CACHE_KEY, $validity);
+    if ($url === null) {
+        $url = cache_put_url($CACHE_KEY, calendar_shooting);
+    }
+
+
+    $iCal = new iCal($url);
     $curDt = new DateTime('yesterday');
 
     $events = $iCal->events();
