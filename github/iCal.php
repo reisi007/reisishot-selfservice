@@ -23,19 +23,17 @@ class iCal
      */
     protected $_eventsByDate;
 
-
     public function __construct($content = null)
     {
         if ($content) {
-            $isUrl = strpos($content, 'http') === 0 && filter_var($content, FILTER_VALIDATE_URL);
-            $isFile = strpos($content, "\n") === false && file_exists($content);
+            $isUrl = str_starts_with($content, 'http') && filter_var($content, FILTER_VALIDATE_URL);
+            $isFile = !str_contains($content, "\n") && file_exists($content);
             if ($isUrl || $isFile) {
                 $content = file_get_contents($content);
             }
             $this->parse($content);
         }
     }
-
 
     public function title()
     {

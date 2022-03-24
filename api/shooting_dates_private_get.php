@@ -18,4 +18,4 @@ $mergeEntry = function ($original, $new) {
     return $new;
 };
 
-accessCalendar($createEntry, $mergeEntry);
+accessCalendar($createEntry, $mergeEntry, "+30 minutes");
