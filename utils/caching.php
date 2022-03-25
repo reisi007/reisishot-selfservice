@@ -2,6 +2,15 @@
 
 const CACHE_FOLDER = "../../.service-cache/";
 
+function cache_access_url(string $cache_key, string $url, string|null $validity): string
+{
+    $data = cache_get($cache_key, $validity);
+    if ($data === null) {
+        $data = cache_put_url($cache_key, $url);
+    }
+    return $data;
+}
+
 function cache_get(string $cache_key, string|null $validity): string|null
 {
     $path = computeCachePath($cache_key);

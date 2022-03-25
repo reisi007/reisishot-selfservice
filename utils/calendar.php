@@ -14,12 +14,7 @@ include_once "../utils/caching.php";
  */
 function accessCalendar($resultEntryCreator, $mergeEntries, string $validity): void
 {
-    $CACHE_KEY = "shooting_calendar";
-    $url = cache_get($CACHE_KEY, $validity);
-    if ($url === null) {
-        $url = cache_put_url($CACHE_KEY, calendar_shooting);
-    }
-
+    $url = cache_access_url("shooting_calendar", calendar_shooting, $validity);
 
     $iCal = new iCal($url);
     $curDt = new DateTime('yesterday');
