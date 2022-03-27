@@ -14,4 +14,4 @@ $mergeEntry = function ($original, $new) {
     return $new;
 };
 
-accessCalendar($createEntry, $mergeEntry, "+6 hours");
+accessCalendar($createEntry, $mergeEntry, "+3 hours");
