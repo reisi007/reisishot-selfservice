@@ -17,7 +17,7 @@ function accessCalendar($resultEntryCreator, $mergeEntries, string $validity): v
     $url = cache_access_url("shooting_calendar", calendar_shooting, $validity);
 
     $iCal = new iCal($url);
-    $curDt = new DateTime('yesterday');
+    $calculationEndtime = new DateTime('-1 month');
 
     $events = $iCal->events();
 
@@ -33,7 +33,7 @@ function accessCalendar($resultEntryCreator, $mergeEntries, string $validity): v
         $startsDt = new DateTime($dateStart);
         $endDt = new DateTime($dateEnd);
 
-        if ($endDt >= $curDt) {
+        if ($endDt >= $calculationEndtime) {
             $endDt->modify("-1 second");
             $startKw = intval($startsDt->format("W"));
             $endKw = intval($endDt->format("W"));
@@ -47,7 +47,6 @@ function accessCalendar($resultEntryCreator, $mergeEntries, string $validity): v
             }
         }
     }
-
     echo json_encode(array_values($result), JSON_THROW_ON_ERROR);
 }
 

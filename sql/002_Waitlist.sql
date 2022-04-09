@@ -37,4 +37,6 @@ CREATE TABLE waitlist_entry
     FOREIGN KEY (person) REFERENCES waitlist_person (id) ON DELETE CASCADE,
     FOREIGN KEY (item_id) REFERENCES waitlist_item (id)
         ON DELETE CASCADE
-)
+);
+
+CREATE UNIQUE INDEX waitlist_entry_item_unique ON waitlist_entry (item_id, person);
