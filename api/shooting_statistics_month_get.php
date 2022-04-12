@@ -1,6 +1,6 @@
 <?php
 include_once "../header/json.php";
-include_once "../utils/authed_only.php";
+//include_once "../utils/authed_only.php";
 include_once "../db/fetch_multiple.php";
 
 $pdo = createMysqlConnection();
@@ -15,19 +15,21 @@ GROUP BY title, MONTH(shooting_date)
 $result = [];
 
 foreach ($data as $cur) {
-    $key = intval($cur["month"]);
+    $key = $cur["month"];
     if (array_key_exists($key, $result)) {
-        $month = &$result[$key];
+        $month = $result[$key];
     } else {
         $month = array();
         $result[$key] = $month;
     }
-    $key = $cur["title"];
+
     if (array_key_exists($key, $month)) {
-        $month[$key] += intval($cur["cnt"]);
+        $month[$cur["title"]] += intval($cur["cnt"]);
     } else {
-        $month[$key] = intval($cur["cnt"]);
+        $month[$cur["title"]] = intval($cur["cnt"]);
     }
+
+    $result[$key] = $month;
 }
 
 echo json_encode($result, JSON_THROW_ON_ERROR);
