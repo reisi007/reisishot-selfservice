@@ -1,13 +1,29 @@
 <?php
 include_once "../header/json.php";
-//include_once "../utils/authed_only.php";
+include_once "../utils/authed_only.php";
 include_once "../db/fetch_multiple.php";
 
 $pdo = createMysqlConnection();
 
+$showMinors = !array_key_exists("showMinors", $_GET) || $_GET['showMinors'] === "true";
+$showGroups = !array_key_exists("showGroups", $_GET) || $_GET['showGroups'] === "true";
+$whereClause = "";
+if (!$showMinors || !$showGroups) {
+    $whereClause .= "where ";
+}
+if (!$showMinors) {
+    $whereClause .= "isminor = FALSE ";
+}
+if (!$showMinors && !$showGroups) {
+    $whereClause .= "and ";
+}
+if (!$showGroups) {
+    $whereClause .= "isgroup = FALSE ";
+}
+
 $data = select("
 SELECT title, MONTH(shooting_date) AS 'month', COUNT(*) AS cnt
-FROM shooting_statistics s
+FROM (SELECT * FROM shooting_statistics $whereClause) s
          JOIN waitlist_item wi ON wi.id = s.item_id
 GROUP BY title, MONTH(shooting_date)
     ", $pdo);
