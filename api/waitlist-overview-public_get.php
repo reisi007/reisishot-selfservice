@@ -12,7 +12,7 @@ SELECT id,
        IF(
                ISNULL(max_waiting),
                NULL,
-               (SELECT max_waiting - COUNT(*) FROM waitlist_entry WHERE item_id = id AND NOT done_internal)
+               (SELECT max_waiting - COUNT(*) FROM waitlist_entry WHERE item_id = id )
            ) AS max_waiting,
        0     AS registered
 FROM waitlist_item

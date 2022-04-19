@@ -22,18 +22,15 @@ CREATE TABLE waitlist_person
     availability TEXT         NOT NULL,
     phone_number VARCHAR(32)  NOT NULL,
     website      VARCHAR(200),
-    access_key   TEXT(36)     NOT NULL
-
-
+    access_key   TEXT(36)     NOT NULL,
+    ignore_until DATE
 );
 
 CREATE TABLE waitlist_entry
 (
-    item_id       BIGINT NOT NULL,
-    person        BIGINT NOT NULL,
-    text          TEXT,
-    done_customer BIT    NOT NULL DEFAULT 0,
-    done_internal BIT    NOT NULL DEFAULT 0,
+    item_id BIGINT NOT NULL,
+    person  BIGINT NOT NULL,
+    text    TEXT,
     FOREIGN KEY (person) REFERENCES waitlist_person (id) ON DELETE CASCADE,
     FOREIGN KEY (item_id) REFERENCES waitlist_item (id)
         ON DELETE CASCADE
