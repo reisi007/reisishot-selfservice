@@ -33,14 +33,14 @@ SELECT id,
        IF(
                ISNULL(max_waiting),
                NULL,
-               (SELECT max_waiting - COUNT(*) FROM waitlist_entry WHERE item_id = id AND NOT done_internal)
-           )                        AS max_waiting,
+               (SELECT max_waiting - COUNT(*) FROM waitlist_entry WHERE item_id = id)) AS max_waiting,
        (SELECT COUNT(*) > 0
         FROM waitlist_entry
         WHERE item_id = id
-          AND  person = (SELECT  id FROM  waitlist_person WHERE email = :email
-          AND access_key = :access_key)
-        ) AS registered
+          AND person = (SELECT id
+                        FROM waitlist_person
+                        WHERE email = :email
+                          AND access_key = :access_key))                               AS registered
 FROM waitlist_item wi
 WHERE available_from <= CURRENT_DATE
   AND (available_to IS NULL OR available_to >= CURRENT_DATE)
