@@ -34,7 +34,9 @@ $pdo->commit();
 
 $url = "https://service.reisishot.pictures/waitlist/$email/$access_key";
 
-sendMail("waitlist@reisishot.pictures", $email, null, "Zugang zur Warteliste", "
+sendMail("waitlist@reisishot.pictures", $email, "florian@reisishot.pictures", "Zugang zur Warteliste", "
 <h1>Zugang zur Warteliste</h1>
-<p><a='$url'>Bitte klicke hier, um dich für Shootings anzumelden</a></p>
+<p><a href=\"$url\">Bitte klicke hier, um dich für Shootings anzumelden</a></p>
+<p>$url</p>
+<p>Wenn du hier keinen Link siehst, schick mir bitte eine Nachricht und ich lasse dir den Link per SMS zukommen</p>
 ");
