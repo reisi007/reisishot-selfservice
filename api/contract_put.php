@@ -1,8 +1,7 @@
 <?php
 include_once "../header/required.php";
-include_once "../utils/security.php";
+include_once "../utils/authed_only.php";
 include_once "../utils/string.php";
-include_once "../utils/sql.php";
 include_once "../utils/mail.php";
 include_once "../utils/files.php";
 include_once "../utils/uuid.php";
@@ -24,11 +23,6 @@ $base_url = trim($json["baseUrl"]);
 
 if (str_contains($contract_filename, "/") || str_contains($contract_filename, "\\")) {
     throw new Exception("Illegal filename " . $contract_filename);
-}
-
-// Check if user is allowed to insert
-if (!checkUserInsert($pdo, $insert_user, $insert_pwd)) {
-    throw new Exception("Wrong PWD");
 }
 
 // Load file from disk
