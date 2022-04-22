@@ -59,3 +59,12 @@ CREATE TABLE permissions
     salt    TEXT(36)     NOT NULL,
     pwd     VARCHAR(255) NOT NULL
 );
+
+CREATE TABLE permission_session
+(
+    user_id   VARCHAR(255) NOT NULL,
+    hash      VARCHAR(128) NOT NULL,
+    last_used DATETIME     NOT NULL,
+    PRIMARY KEY (user_id, hash),
+    FOREIGN KEY (user_id) REFERENCES permissions (user_id)
+)
