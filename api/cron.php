@@ -3,8 +3,11 @@ include_once "../header/required.php";
 include_once "../utils/sql.php";
 
 header('Content-Type: text/plain');
-
-println("Starte Job");
+// body
+println();
+println("=============");
+println("Start Cleanup");
+println("=============");
 println();
 
 $pdo = createMysqlConnection();
@@ -16,8 +19,11 @@ $deleted_sessions = $pdo->exec("DELETE FROM permission_session WHERE last_used <
 println("Deleted $deleted_sessions sessions....");
 
 println();
-println("Job erfolgreich ausgeführt!");
-
+println();
+println("=============================");
+println("Cleanup executed successfully!");
+println("=============================");
+println();
 
 function println(string $text = "")
 {
