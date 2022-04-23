@@ -1,7 +1,7 @@
 <?php
+include_once "../utils/authed_only.php";
 include_once "../header/json.php";
 include_once "../utils/files.php";
-include_once "../utils/authed_only.php";
 
 $pdo = createMysqlConnection();
 $json = read_body_json();
