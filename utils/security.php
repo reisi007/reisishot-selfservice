@@ -2,7 +2,7 @@
 
 include_once 'sql.php';
 
-function checkUserInsert(PDO $connection, string $userName, string $pwd): bool
+function checkIsAdmin(PDO $connection, string $userName, string $pwd): bool
 {
     // Get salt
     $statement = $connection->prepare("SELECT salt, pwd FROM permissions WHERE user_id = :user");
@@ -21,7 +21,7 @@ function setPassword(PDO $connection, string $validUserName, $validPwd, string $
 {
     include_once "uuid.php";
 
-    if (!checkUserInsert($connection, $validUserName, $validPwd)) {
+    if (!checkIsAdmin($connection, $validUserName, $validPwd)) {
         throw new Exception("Invalid username / PWD");
     }
 
