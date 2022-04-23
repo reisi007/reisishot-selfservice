@@ -1,6 +1,6 @@
 <?php
-include_once "../header/json.php";
 include_once "../utils/authed_only.php";
+include_once "../header/json.php";
 include_once "../db/fetch_multiple.php";
 
 $pdo = createMysqlConnection();

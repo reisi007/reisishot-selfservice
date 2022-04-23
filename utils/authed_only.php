@@ -1,6 +1,6 @@
 <?php
+include_once "../header/_cors.php";
 include_once "sql.php";
-include_once "security.php";
 
 $headers = getallheaders();
 $user = trim($headers['Email']);
@@ -13,5 +13,6 @@ $statement->bindParam("user", $user);
 $statement->bindParam("hash", $pwd);
 $statement->execute();
 if ($statement->rowCount() !== 1) {
-    throw new Exception("Access not allowed");
+    header("HTTP/1.1 401 Unauthorized");
+    exit();
 }
