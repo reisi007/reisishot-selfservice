@@ -10,9 +10,10 @@ $pwd = trim($headers['Accesskey']);
 
 $pdo = createMysqlConnection();
 
-// Check if user is allowed to insert
-if (!checkUserInsert($pdo, $user, $pwd)) {
-    throw new Exception("Wrong PWD");
+// Check if user is known
+if (!checkIsAdmin($pdo, $user, $pwd)) {
+    header("HTTP/1.1 401 Unauthorized");
+    exit();
 }
 
 $uuid = uuid();
@@ -23,4 +24,6 @@ $statement->bindValue("hash", $uuid);
 $statement->execute();
 $pdo->commit();
 
+
+include_once "../header/json.php";
 echo json_encode(array("user" => $user, "hash" => $uuid));
