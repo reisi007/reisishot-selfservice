@@ -26,7 +26,7 @@ $pdo->beginTransaction();
 FROM contract_access
 WHERE MONTH(birthday) = MONTH(NOW())
   AND DAY(birthday) = DAY(NOW())
-GROUP BY email, lastname, firstname, birthday
+GROUP BY email, birthday
 ");
 
     $foundBirthdays = $birthdayQuery->fetchAll(PDO::FETCH_ASSOC);
