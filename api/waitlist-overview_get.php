@@ -36,16 +36,16 @@ SELECT id,
                (SELECT max_waiting - COUNT(*)
                 FROM waitlist_entry we
                          JOIN waitlist_person wp ON wp.id = we.person
-                WHERE item_id = id
-                  AND (wp.ignore_until IS NULL OR wp.ignore_until > CURRENT_TIMESTAMP))
-           ) AS max_waiting,
+                WHERE item_id = wi.id
+                  AND (wp.ignore_until IS NULL OR wp.ignore_until < CURRENT_TIMESTAMP))
+           )                                             AS max_waiting,
        (SELECT COUNT(*) > 0
         FROM waitlist_entry
-        WHERE item_id = id
+        WHERE item_id = wi.id
           AND person = (SELECT id
                         FROM waitlist_person
                         WHERE email = :email
-                          AND access_key = :access_key))                               AS registered
+                          AND access_key = :access_key)) AS registered
 FROM waitlist_item wi
 WHERE available_from <= CURRENT_DATE
   AND (available_to IS NULL OR available_to >= CURRENT_DATE)
