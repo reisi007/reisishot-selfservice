@@ -38,11 +38,14 @@ $statement->execute();
 
 // Check if valid
 $check = $pdo->prepare("
-SELECT COUNT(*)AS cnt, title, max_waiting
+SELECT COUNT(*) AS cnt, title, max_waiting
 FROM waitlist_item wi
          JOIN waitlist_entry we ON wi.id = we.item_id
+         JOIN waitlist_person wp ON wp.id = we.person
 WHERE wi.id = :item_id
-GROUP BY id, max_waiting,title
+  AND (wp.ignore_until IS NULL OR wp.ignore_until < CURRENT_TIMESTAMP)
+GROUP BY wi.id, max_waiting, title
+
 ");
 
 $check->bindParam("item_id", $item_id);

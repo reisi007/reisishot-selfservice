@@ -12,7 +12,11 @@ SELECT id,
        IF(
                ISNULL(max_waiting),
                NULL,
-               (SELECT max_waiting - COUNT(*) FROM waitlist_entry WHERE item_id = id )
+               (SELECT max_waiting - COUNT(*)
+                FROM waitlist_entry we
+                         JOIN waitlist_person wp ON wp.id = we.person
+                WHERE item_id = id
+                  AND (wp.ignore_until IS NULL OR wp.ignore_until < CURRENT_TIMESTAMP))
            ) AS max_waiting,
        0     AS registered
 FROM waitlist_item
