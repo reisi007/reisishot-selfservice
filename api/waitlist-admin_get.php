@@ -34,12 +34,13 @@ SELECT item_id,
        phone_number,
        website,
        access_key,
-       COALESCE(rp.points, 0) AS points
+       COALESCE(rp.points, 0) AS points,
+       date_assigned
 FROM waitlist_entry we
          JOIN waitlist_person wp ON we.person = wp.id
          LEFT OUTER JOIN referral_points rp ON rp.referrer = wp.email
-WHERE item_id = :id AND (wp.ignore_until IS NULL  OR wp.ignore_until < CURRENT_TIMESTAMP)
-ORDER BY points DESC 
+WHERE item_id = :id AND (wp.ignore_until IS NULL OR wp.ignore_until < CURRENT_TIMESTAMP)
+ORDER BY date_assigned ,points DESC 
 ");
 
 foreach ($items as $key => &$item) {

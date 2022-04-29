@@ -28,9 +28,10 @@ CREATE TABLE waitlist_person
 
 CREATE TABLE waitlist_entry
 (
-    item_id BIGINT NOT NULL,
-    person  BIGINT NOT NULL,
-    text    TEXT,
+    item_id       BIGINT NOT NULL,
+    person        BIGINT NOT NULL,
+    text          TEXT,
+    date_assigned BIT    NOT NULL DEFAULT 0,
     FOREIGN KEY (person) REFERENCES waitlist_person (id) ON DELETE CASCADE,
     FOREIGN KEY (item_id) REFERENCES waitlist_item (id)
         ON DELETE CASCADE
