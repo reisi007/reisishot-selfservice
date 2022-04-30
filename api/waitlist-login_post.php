@@ -36,7 +36,6 @@ $url = "https://service.reisishot.pictures/waitlist/$email/$access_key";
 
 sendMail("waitlist@reisishot.pictures", $email, "florian@reisishot.pictures", "Zugang zur Warteliste", "
 <h1>Zugang zur Warteliste</h1>
-<p><a href=\"$url\">Bitte klicke hier, um dich für Shootings anzumelden</a></p>
-<p>$url</p>
+" . insertMainLink($url, 'Bitte klicke hier, um dich für ein Shooting anzumelden') . "
 <p>Wenn du hier keinen Link siehst, schick mir bitte eine Nachricht und ich lasse dir den Link per SMS zukommen</p>
 ");
