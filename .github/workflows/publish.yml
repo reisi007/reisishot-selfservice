@@ -21,6 +21,8 @@ jobs:
                         **/.git*
                         **/.git*/**
                         .*
+                        .idea/**
+                        .github/**
                         README.md
                         config/**
                         mailoutput/**
