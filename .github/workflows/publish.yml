@@ -25,5 +25,6 @@ jobs:
                         .github/**
                         README.md
                         config/**
+                        sql/**
                         mailoutput/**
                         tailwind/**
