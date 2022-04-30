@@ -35,12 +35,13 @@ SELECT item_id,
        website,
        access_key,
        COALESCE(rp.points, 0) AS points,
-       date_assigned
+       date_assigned,
+       NOT (wp.ignore_until IS NULL OR wp.ignore_until < CURRENT_TIMESTAMP) AS ignored
 FROM waitlist_entry we
          JOIN waitlist_person wp ON we.person = wp.id
          LEFT OUTER JOIN referral_points rp ON rp.referrer = wp.email
-WHERE item_id = :id AND (wp.ignore_until IS NULL OR wp.ignore_until < CURRENT_TIMESTAMP)
-ORDER BY date_assigned ,points DESC 
+WHERE item_id = :id  
+ORDER BY ignored ,date_assigned ,points DESC 
 ");
 
 foreach ($items as $key => &$item) {
