@@ -1,9 +1,0 @@
-{
-    "devDependencies": {
-        "tailwindcss": "^3.0.24"
-    },
-    "scripts": {
-        "tailwind": "tailwindcss -i ./mail.css -o ../utils/mail.css --minify",
-        "tailwind:dev": "tailwindcss -i ./mail.css -o ../utils/mail.css --watch"
-    }
-}
