@@ -26,7 +26,7 @@ function sendMail(string $from, string $to, string|null $bcc, string $subject, s
     $message .= '<div style="padding: 1rem;">';
     $message .= '<div style="text-align: center"><img style="margin: 0 auto; border-radius: 1rem; display: inline-block;" src="cid:logo"  alt="Reisishot Logo"/></div>';
     $message .= '<br style="display:none;"/>';
-    $message .= "<div style='background-color: #ffffff; border-radius: 0.5rem;margin: 0.5rem;padding: 1rem; box-sizing: border-box'><table width='100%' style='background-color: #ffffff'>$body</table></div>";
+    $message .= "<div style='background-color: #ffffff; border-radius: 0.5rem;margin: 0.5rem;padding: 1rem; box-sizing: border-box'><table width='100%' style='background-color: #ffffff'>$body " . insertMainLink("https://example.com", "Test link") . "</table></div>";
     $message .= '</div></body></html>';
     $message .= newline . boundary . newline;
     $message .= 'Content-Type: image/jpeg;name="logo.png"' . newline . 'Content-Transfer-Encoding: base64' . newline . 'Content-ID: <logo>' . newline . 'Content-Disposition: inline;filename="logo.png"' . newline . newline . logoBase64 . newline . boundary;
@@ -36,5 +36,6 @@ function sendMail(string $from, string $to, string|null $bcc, string $subject, s
 
 function insertMainLink(string $target, string $linkText)
 {
-    return "<div style='width: 100%'><table  style='margin: 0.5rem;padding: 0.5rem 1rem 0.5rem 1rem;background-color: " . primaryColor . ";border-radius: 0.25rem;font-size: 1rem'><a href='$target' style='color: #ffffff'>$linkText</a></table><p>Falls du den Link oben nicht klicken kannst: $target</p></div>";
+    return "<div style='background-color: " . primaryColor . ";box-sizing: border-box;margin: 0.5rem;padding: 0.5rem 1rem 0.5rem 1rem;border-radius: 0.25rem;font-size: 1rem;text-align: center'><table style='background-color: " . primaryColor . ";'><a href='$target' style='color: #ffffff'>$linkText</a></table></div>"
+        . "<p>Falls du den Link oben nicht klicken kannst, kopiere diesen Link: <a href='$target'>$target</a></p>";
 }
