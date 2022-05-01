@@ -36,6 +36,9 @@ function sendMail(string $from, string $to, string|null $bcc, string $subject, s
 
 function insertMainLink(string $target, string $linkText)
 {
-    return "<div style='background-color: " . primaryColor . ";box-sizing: border-box;margin: 0.5rem;padding: 0.5rem 1rem 0.5rem 1rem;border-radius: 0.25rem;font-size: 1rem;text-align: center'><table style='background-color: " . primaryColor . ";'><a href='$target' style='color: #ffffff'>$linkText</a></table></div>"
+    return "<table style='background-color: " . primaryColor . ";'>"
+        . "<div style='background-color: " . primaryColor . ";box-sizing: border-box;margin: 0.5rem;padding: 0.5rem 1rem 0.5rem 1rem;border-radius: 0.25rem;font-size: 1rem;text-align: center'>"
+        . "<a href='$target' style='color: #ffffff;display: block;'>$linkText</a>"
+        . "</div></table>"
         . "<p>Falls du den Link oben nicht klicken kannst, kopiere diesen Link: <a href='$target'>$target</a></p>";
 }
