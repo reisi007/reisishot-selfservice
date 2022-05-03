@@ -15,8 +15,15 @@ $statement->bindParam("hash", $pwd);
 $statement->execute();
 
 if ($statement->rowCount() !== 1) {
-    header("HTTP/1.1 401 Unauthorized");
-    $pdo->rollBack();
-    exit();
+    $same = $pdo->prepare("SELECT COUNT(*) FROM permission_session WHERE user_id =:user AND hash = :hash");
+    $same->bindParam("user", $user);
+    $same->bindParam("hash", $pwd);
+    $same->execute();
+    $count = $same->fetchColumn();
+    if ($count !== '1') {
+        header("HTTP/1.1 401 Unauthorized");
+        $pdo->rollBack();
+        exit();
+    }
 }
 $pdo->commit();
