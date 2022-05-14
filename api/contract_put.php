@@ -13,8 +13,6 @@ $pdo->beginTransaction();
 
 $json = read_body_json();
 // JSON as individual variables
-$insert_user = trim($json["user"]);
-$insert_pwd = trim($json["pwd"]);
 $contract_filename = trim($json["contractType"]);
 $additionalText = trim($json["text"]);
 $contract_dueDate = trim($json["dueDate"]);
