@@ -59,6 +59,6 @@ sendMail("contracts@reisishot.pictures", $email, null, $action . " - Aktion bei 
   Bitte benutze den folgenden Link, um zu deinem Vertrag zu kommen: <a href='$base_url/contracts/$email/$access_key'>Link zum Vertrag</a>
 </p>
 <p>
-Hash: $hash_value
+Hash: <span style='overflow-x: auto'>$hash_value</span>
 </p>
 ");
