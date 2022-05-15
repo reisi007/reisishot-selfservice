@@ -24,7 +24,7 @@ function sendMail(string $from, string $to, string|null $bcc, string $subject, s
     $message .= 'Content-Transfer-Encoding: 7bit' . newline . newline;
     $message .= "<html lang='de'><body style='background: " . primaryColor . "'>";
     $message .= '<div style="padding: 1rem;">';
-    $message .= '<div style="text-align: center"><img style="margin: 0 auto; border-radius: 1rem; display: inline-block;" src="cid:logo"  alt="Reisishot Logo"/></div>';
+    $message .= '<div style="text-align: center"><img style="margin: 0 auto; border-radius: 1rem; display: inline-block; object-fit: scale-down" src="cid:logo"  alt="Reisishot Logo"/></div>';
     $message .= '<br style="display:none;"/>';
     $message .= "<div style='background-color: #ffffff; border-radius: 0.5rem;margin: 0.5rem;padding: 1rem; box-sizing: border-box'><table width='100%' style='background-color: #ffffff'>$body</table></div>";
     $message .= '</div></body></html>';
