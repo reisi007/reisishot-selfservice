@@ -54,6 +54,13 @@ foreach ($items as $key => &$item) {
 $response = array();
 $response["registrations"] = $items;
 $response["leaderboard"] = select("SELECT referrer, points FROM referral_points", $pdo);
+$response["pendingContracts"] = select("
+SELECT ca.email, access_key, due_date
+FROM contract_access ca
+         JOIN contract_instances ci ON ci.id = ca.contract_id AND due_date > CURRENT_TIMESTAMP
+WHERE email NOT IN (SELECT email FROM contract_log cl WHERE log_type = 'SIGN' AND cl.contract_id = ci.id)
+ORDER BY due_date DESC, email
+", $pdo);
 
 echo json_encode($response, JSON_THROW_ON_ERROR);
 
