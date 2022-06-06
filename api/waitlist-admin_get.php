@@ -62,5 +62,13 @@ WHERE email NOT IN (SELECT email FROM contract_log cl WHERE log_type = 'SIGN' AN
 ORDER BY due_date DESC, email
 ", $pdo);
 
+$response["blocked"] = select("
+SELECT firstname AS 'firstName', lastname AS 'lastName', email, birthday, ignore_until AS 'ignoredUntil'
+FROM waitlist_person wp
+WHERE wp.ignore_until IS NOT NULL
+  AND ignore_until > CURRENT_DATE
+
+", $pdo);
+
 echo json_encode($response, JSON_THROW_ON_ERROR);
 
