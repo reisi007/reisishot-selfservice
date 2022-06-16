@@ -14,17 +14,17 @@ include_once "../utils/uuid.php";
     $json = read_body_json();
     $headers = getallheaders();
 
-    $email = strtolower(trim($headers["Email"]));
-    $access_key = trim($headers["Accesskey"]);
+    $email = isset($headers["Email"]) ? strtolower(trim($headers["Email"])) : trim($json["email"]);
+    $access_key = isset($headers["Accesskey"]) ? trim($headers["Accesskey"]) : null;
 
     if ($access_key == "") {
         $access_key = null;
     }
 
-    $rating = $json["rating"];
-    $name = $json["name"];
-    $review_public = $json["review_public"];
-    $review_private = $json["review_private"];
+    $rating = trim($json["rating"]);
+    $name = trim($json["name"]);
+    $review_public = trim($json["review_public"]);
+    $review_private = trim($json["review_private"]);
 
     if ($access_key != null) {
         // Try update
