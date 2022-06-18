@@ -22,7 +22,7 @@ function sendMail(string $from, string $to, string|null $bcc, string $subject, s
     $message .= boundary . newline;
     $message .= 'Content-Type: text/html;charset=utf-8' . newline;
     $message .= 'Content-Transfer-Encoding: 7bit' . newline . newline;
-    $message .= "<html lang='de'><body style='background: " . primaryColor . "'>";
+    $message .= "<html lang='de'><body style='background: " . primaryColor . ";word-wrap: break-word;'>";
     $message .= '<div style="padding: 1rem;">';
     $message .= '<div style="text-align: center"><img style="margin: 0 auto; border-radius: 1rem; display: inline-block; object-fit: scale-down" src="cid:logo"  alt="Reisishot Logo"/></div>';
     $message .= '<br style="display:none;"/>';
