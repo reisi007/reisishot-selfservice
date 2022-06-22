@@ -56,7 +56,7 @@ $pdo->commit();
 sendMail("contracts@reisishot.pictures", $email, null, $action . " - Aktion bei deinem Vertrag", "
 <h1>Zugriff zu deinem Vertrag</h1>
  <p>
-  Bitte benutze den folgenden Link, um zu deinem Vertrag zu kommen: <a href='$base_url/contracts/$email/$access_key'>Link zum Vertrag</a>
+  Bitte benutze den folgenden Link, um zu deinem Vertrag zu kommen: <a href='$base_url'>Link zum Vertrag</a>
 </p>
 <p>
 Hash: <span style='overflow-x: auto'>$hash_value</span>
