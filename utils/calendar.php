@@ -75,11 +75,11 @@ function merge_states($a, $b)
 {
     $haystack = array($a, $b);
 
-    if (in_array(STATE_BLOCKED, $haystack)) {
-        return STATE_BLOCKED;
-    }
     if (in_array(STATE_TAKEN, $haystack)) {
         return STATE_TAKEN;
+    }
+    if (in_array(STATE_BLOCKED, $haystack)) {
+        return STATE_BLOCKED;
     }
     if (in_array(STATE_BUSY, $haystack)) {
         return STATE_BUSY;
