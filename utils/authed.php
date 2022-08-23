@@ -20,7 +20,10 @@ function isAuthed(): bool
 
     $pwd = safeArray($headers, 'Accesskey');
     if (!$pwd) {
-        $pwd = $_GET["auth"];
+        $pwd = safeArray($_GET, "auth");
+    }
+    if (!$pwd) {
+        $pwd = safeArray($_GET, "accesskey");
     }
 
     $user = trim($user);

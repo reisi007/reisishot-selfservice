@@ -33,7 +33,7 @@ AND folder = :folder
     $stmt->bindParam("email", $user);
     $stmt->bindParam("accessKey", $pwd);
     $stmt->bindParam("folder", $folder);
-
+    $stmt->execute();
     $isAuthed = $stmt->fetchColumn() === "1";
 
 }
