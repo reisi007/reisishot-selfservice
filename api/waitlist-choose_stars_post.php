@@ -29,7 +29,8 @@ $insert->bindParam("s", $rating);
 
 $insert->execute();
 
-if ($insert->rowCount() != 1) {
+$rowCount = $insert->rowCount();
+if ($rowCount != 1 && $rowCount != 2) {
     throw new Exception('Could not insert/replace rating');
 }
 

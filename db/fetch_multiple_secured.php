@@ -1,5 +1,5 @@
 <?php
-include_once "../utils/sql.php";
+include_once '../utils/sql.php';
 include_once "../header/required.php";
 
 /**
