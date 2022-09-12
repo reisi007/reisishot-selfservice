@@ -2,7 +2,7 @@
 (function () {
     $allowedOrigins = array(
         /** @lang RegExp */
-        'https://([^.]+\.){0,}?reisishot\.pictures',
+        'https://([^.]+\.){0,}?reisinger\.pictures',
         /** @lang RegExp */
         'https?://localhost(:\d{1,})?'
     );

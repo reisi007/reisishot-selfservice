@@ -16,7 +16,7 @@ jobs:
                     password: ${{ secrets.ftp_password }}
                     protocol: ftps
                     local-dir: ./
-                    server-dir: /selfservice-backend.reisishot.pictures/
+                    server-dir: /selfservice-backend.reisinger.pictures/
                     exclude: |
                         **/.git*
                         **/.git*/**

@@ -56,7 +56,7 @@ GROUP BY email, birthday
 
         println();
         println("Found $cntBirthdays birthdays....");
-        sendMail("cron@reisishot.pictures", "florian@reisishot.pictures", null, $subject, $body);
+        sendMail("cron@reisinger.pictures", "florian@reisinger.pictures", null, $subject, $body);
     }
 })();
 
