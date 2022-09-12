@@ -25,13 +25,16 @@ if ($reset) {
     $statement->execute();
 
     if ($statement->rowCount() != 1) {
-        throw new Exception("Could not insert new person");
+        throw new Exception("Could not update access key");
     }
 }
 else {
     $statement = $pdo->prepare("SELECT access_key FROM waitlist_person WHERE email = :email");
-    $statement->bindParam("email",$email);
+    $statement->bindParam("email", $email);
     $statement->execute();
+    if ($statement->rowCount() != 1) {
+        throw new Exception('Could not find person');
+    }
     $access_key = $statement->fetchColumn();
 }
 
