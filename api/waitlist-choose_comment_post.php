@@ -13,8 +13,8 @@ $headers = getallheaders();
 $email = strtolower(trim($headers["Email"]));
 $access_key = trim($headers["Accesskey"]);
 
-$folder = strtoupper(trim($json["folder"]));
-$image = strtoupper(trim($json["image"]));
+$folder = trim($json["folder"]);
+$image = trim($json["image"]);
 $comment = $json["data"];
 
 $person = select("SELECT id FROM waitlist_person WHERE email = :email AND  access_key = :access_key", $pdo);

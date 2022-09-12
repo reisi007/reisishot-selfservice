@@ -79,7 +79,8 @@ würde mich aber freuen, wenn du mir ein möglichst ausführliches Feedback gebe
 
 ## Zusatzoptionen zum Vertrag
 
-Unter [waitlist.reisishot.pictures](https://waitlist.reisishot.pictures) findest du Zusatzoptionen, die du zusätzlich -
+Unter [service.reisinger.pictures/waitlist](https://service.reisinger.pictures/waitlist) findest du Zusatzoptionen, die
+du zusätzlich -
 gegen Punkte - für das Shooting aktivieren kannst. Bitte beachte, dass der Vertrag die auf dieser Webseite aufgelisteten
 Punkte explizit ausschließt, solange du die Option nicht aktivierst. Das Sammeln von Punkten ist nur nach Registrierung
 über die oben angegebene Adresse möglich.

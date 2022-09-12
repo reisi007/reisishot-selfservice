@@ -129,7 +129,7 @@ function sendMailInternal(array $person, string $endDate, string $baseUrl, strin
     $url = "$baseUrl/contracts/$to/$access_key";
 
     sendMail(
-        "contracts@reisishot.pictures",
+        "contracts@reisinger.pictures",
         $to, null,
         "Zugriff zu deinem Vertrag",
         "

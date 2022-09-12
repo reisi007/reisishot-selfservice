@@ -79,7 +79,8 @@ würde mich aber freuen, wenn du mir ein möglichst ausführliches Feedback gebe
 
 ## Zusatzoptionen zum Vertrag
 
-Unter [waitlist.reisishot.pictures](https://waitlist.reisishot.pictures) findest du Zusatzoptionen, die du zusätzlich -
+Unter [service.reisinger.pictures/waitlist](https://service.reisinger.pictures/waitlist) findest du Zusatzoptionen, die
+du zusätzlich -
 gegen Punkte - für das Shooting aktivieren kannst. Bitte beachte, dass der Vertrag die auf dieser Webseite aufgelisteten
 Punkte explizit ausschließt, solange du die Option nicht aktivierst. Das Sammeln von Punkten ist nur nach Registrierung
 über die oben angegebene Adresse möglich.
@@ -98,7 +99,7 @@ werden möchtest, dann sag mir das bitte vorab, damit ich das unten ergänzen ka
 Du darfst die fertig bearbeiteten Bilder, die wir gemacht haben, auf Social Media / Webseite usw. veröffentlichen. Bei
 der Veröffentlichung musst du aber das Urheberrecht beachten. Das bedeutet, dass du z.B. *©* *Florian Reisinger* bzw.
 meinen Account auf der Social Media Plattform und im Idealfall auch meine
-Webseite [goto.reisishot.pictures](https://goto.reisishot.pictures) in der Nähe des Bildes schreiben musst. Das "in der
+Webseite [reisinger.pictures](https://reisinger.pictures) in der Nähe des Bildes schreiben musst. Das "in der
 Nähe des Bildes" bedeutet, dass man ohne viel zu suchen den Copyright-Vermerk sehen können muss. Wenn du dir unsicher
 bist, ob eine bestimmte Nutzung erlaubt ist, dann frag einfach bei mir nach.
 
