@@ -1,6 +1,11 @@
 <?php
 
-function combineMd(string $first, string $second)
+function combineMd(string $base, string $additionalText)
 {
-    return $first . '\r\n' . $second;
+    $placeholder = '%platzhalter%';
+    if (str_contains($base, $placeholder)) {
+        return str_replace($placeholder, "\r\n{$additionalText}", $base);
+    } else {
+        return $base . '\r\n' . $additionalText;
+    }
 }

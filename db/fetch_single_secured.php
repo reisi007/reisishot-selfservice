@@ -5,7 +5,7 @@ include_once "../header/required.php";
 /**
  * @throws JsonException
  */
-function query(string $sql, \PDO $pdo = null)
+function query(string $sql, \PDO|null $pdo = null)
 {
     include_once "../header/json.php";
     if ($pdo == null) {
