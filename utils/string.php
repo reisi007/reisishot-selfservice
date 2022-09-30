@@ -6,6 +6,6 @@ function combineMd(string $base, string $additionalText)
     if (str_contains($base, $placeholder)) {
         return str_replace($placeholder, "\r\n{$additionalText}", $base);
     } else {
-        return $base . '\r\n' . $additionalText;
+        return $base . "\r\n" . $additionalText;
     }
 }
