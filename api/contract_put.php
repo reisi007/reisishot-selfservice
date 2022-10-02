@@ -30,7 +30,17 @@ if ($contract_data === false) {
     throw new Exception("Contract not found");
 }
 
-$contract_dbid = insertContract($pdo, $contract_data, $additionalText, $contract_dueDate);
+$dsgvoData = file_get_contents('../assets/dsgvo.md');
+
+$dsgvo_id = insertDsgvoData($pdo, $dsgvoData);
+
+$contract_dbid = insertContract(
+    $pdo,
+    $contract_data,
+    $additionalText,
+    $dsgvoData,
+    $contract_dueDate
+);
 
 insertPermissions($pdo, $person_array, $contract_dbid, $contract_dueDate, $base_url);
 
@@ -44,10 +54,10 @@ $pdo->commit();
  * @param string $dueDate
  * @return string
  */
-function insertContract(PDO $pdo, string $contractData, string $additionalText, string $dueDate): string
+function insertContract(PDO $pdo, string $contractData, string $additionalText, string $dsgvo, string $dueDate): string
 {
     $contractHash = hash(HASH_ALGO, $contractData);
-    $fullHash = hash(HASH_ALGO, combineMd($contractData, $additionalText));
+    $fullHash = hash(HASH_ALGO, combineMd($contractData, $additionalText, $dsgvo));
     $id = insertContractData($pdo, $contractHash, $contractData);
 
     $stmt = $pdo->prepare("INSERT INTO contract_instances(contract_id, additional_text, hash_algo, hash_value, due_date) VALUES (:contractId,:text,:algo,:hash,:dueDate)");
@@ -64,10 +74,10 @@ function insertContract(PDO $pdo, string $contractData, string $additionalText, 
 /**
  * @param PDO $pdo
  * @param string $hashedData
- * @param string $contraxtData
+ * @param string $contractData
  * @return int
  */
-function insertContractData(PDO $pdo, string $hashedData, string $contraxtData): int
+function insertContractData(PDO $pdo, string $hashedData, string $contractData): int
 {
     $hash_algo = HASH_ALGO;
     // Check if contract is already there
@@ -81,9 +91,32 @@ function insertContractData(PDO $pdo, string $hashedData, string $contraxtData):
     }
 
     $statement = $pdo->prepare("INSERT INTO contract_data(markdown,hash_algo,hash_value) VALUES (:md,:algo,:hash)");
-    $statement->bindParam("md", $contraxtData);
+    $statement->bindParam("md", $contractData);
     $statement->bindParam("algo", $hash_algo);
     $statement->bindParam("hash", $hashedData);
+    $statement->execute();
+
+    return $pdo->lastInsertId();
+}
+
+/**
+ * @param PDO $pdo
+ * @param string $dsgvoData
+ * @return int
+ */
+function insertDsgvoData(PDO $pdo, string $dsgvoData): int
+{
+    // Check if contract is already there
+    $find = $pdo->prepare('SELECT id FROM dsgvo_data WHERE markdown = :md');
+    $find->bindParam('md', $dsgvoData);
+    $find->execute();
+    $column = $find->fetchColumn(0);
+    if ($column !== false) {
+        return $column;
+    }
+
+    $statement = $pdo->prepare('INSERT INTO dsgvo_data(markdown) VALUES (:md)');
+    $statement->bindParam('md', $dsgvoData);
     $statement->execute();
 
     return $pdo->lastInsertId();
