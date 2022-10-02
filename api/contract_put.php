@@ -29,8 +29,13 @@ $contract_data = file_get_contents("../assets/contracts/" . $contract_filename);
 if ($contract_data === false) {
     throw new Exception("Contract not found");
 }
+$contract_data = trim($contract_data);
 
 $dsgvoData = file_get_contents('../assets/dsgvo.md');
+if ($dsgvoData === false) {
+    throw new Exception('Contract not found');
+}
+$dsgvoData = trim($dsgvoData);
 
 $dsgvo_id = insertDsgvoData($pdo, $dsgvoData);
 
