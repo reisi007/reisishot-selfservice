@@ -37,8 +37,6 @@ if ($dsgvoData === false) {
 }
 $dsgvoData = trim($dsgvoData);
 
-$dsgvo_id = insertDsgvoData($pdo, $dsgvoData);
-
 $contract_dbid = insertContract(
     $pdo,
     $contract_data,
@@ -64,9 +62,11 @@ function insertContract(PDO $pdo, string $contractData, string $additionalText, 
     $contractHash = hash(HASH_ALGO, $contractData);
     $fullHash = hash(HASH_ALGO, combineMd($contractData, $additionalText, $dsgvo));
     $id = insertContractData($pdo, $contractHash, $contractData);
+    $dsgvoId = insertDsgvoData($pdo, $dsgvo);
 
-    $stmt = $pdo->prepare("INSERT INTO contract_instances(contract_id, additional_text, hash_algo, hash_value, due_date) VALUES (:contractId,:text,:algo,:hash,:dueDate)");
+    $stmt = $pdo->prepare("INSERT INTO contract_instances(contract_id ,dsgvo_id, additional_text, hash_algo, hash_value, due_date) VALUES (:contractId,:dsgvoId,:text,:algo,:hash,:dueDate)");
     $stmt->bindParam("contractId", $id);
+    $stmt->bindParam("dsgvoId", $dsgvoId);
     $stmt->bindParam("text", $additionalText);
     $algo = HASH_ALGO;
     $stmt->bindParam("algo", $algo);
@@ -115,7 +115,7 @@ function insertDsgvoData(PDO $pdo, string $dsgvoData): int
     $find = $pdo->prepare('SELECT id FROM dsgvo_data WHERE markdown = :md');
     $find->bindParam('md', $dsgvoData);
     $find->execute();
-    $column = $find->fetchColumn(0);
+    $column = $find->fetchColumn();
     if ($column !== false) {
         return $column;
     }
