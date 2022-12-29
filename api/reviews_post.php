@@ -22,9 +22,9 @@ include_once "../utils/uuid.php";
     }
 
     $rating = trim($json["rating"]);
-    $name = isset($headers['name']) ? trim($json['name']) : trim($json["firstName"]) . " " . trim($json['lastName']);
+    $name = trim($json["firstName"]) . " " . trim($json['lastName']);
     $review_public = trim($json["review_public"]);
-    $review_private = trim($json["review_private"]);
+    $review_private = isset($json['review_private']) ? trim($json["review_private"]) : null;
 
     if ($access_key != null) {
         // Try update
