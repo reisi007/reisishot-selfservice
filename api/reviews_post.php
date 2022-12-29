@@ -22,7 +22,7 @@ include_once "../utils/uuid.php";
     }
 
     $rating = trim($json["rating"]);
-    $name = trim($json["name"]);
+    $name = isset($headers['name']) ? trim($json['name']) : trim($json["firstName"]) . " " . trim($json['lastName']);
     $review_public = trim($json["review_public"]);
     $review_private = trim($json["review_private"]);
 
