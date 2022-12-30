@@ -164,7 +164,7 @@ function sendMailInternal(array $person, string $endDate, string $baseUrl, strin
 
     $to = $person["email"];
 
-    $url = "$baseUrl/contracts/$to/$access_key";
+    $url = "$baseUrl/contract?email=$to&accessKey=$access_key";
 
     sendMail(
         "contracts@reisinger.pictures",
