@@ -17,7 +17,6 @@ $contract_filename = trim($json["contractType"]);
 $additionalText = trim($json["text"]);
 $contract_dueDate = trim($json["dueDate"]);
 $person_array = $json["persons"];
-$base_url = trim($json["baseUrl"]);
 
 if (str_contains($contract_filename, "/") || str_contains($contract_filename, "\\")) {
     throw new Exception("Illegal filename " . $contract_filename);
@@ -45,7 +44,7 @@ $contract_dbid = insertContract(
     $contract_dueDate
 );
 
-insertPermissions($pdo, $person_array, $contract_dbid, $contract_dueDate, $base_url);
+insertPermissions($pdo, $person_array, $contract_dbid, $contract_dueDate);
 
 $pdo->commit();
 
@@ -133,10 +132,9 @@ function insertDsgvoData(PDO $pdo, string $dsgvoData): int
  * @param mixed $persons
  * @param string $id
  * @param string $dueDate
- * @param string $base_url
  * @return void
  */
-function insertPermissions(PDO $pdo, array $persons, string $id, string $dueDate, string $base_url): void
+function insertPermissions(PDO $pdo, array $persons, string $id, string $dueDate): void
 {
     $insert = $pdo->prepare("INSERT INTO contract_access(contract_id,access_key ,email,firstname,lastname,birthday) VALUES (:id,:key,:email,:first,:last,:birthday)");
     foreach ($persons as $key => $person) {
@@ -154,17 +152,17 @@ function insertPermissions(PDO $pdo, array $persons, string $id, string $dueDate
         $insert->bindParam("birthday", $birthday);
         $insert->execute();
 
-        sendMailInternal($person, $dueDate, $base_url, $uuid);
+        sendMailInternal($person, $dueDate, $uuid);
     }
 }
 
-function sendMailInternal(array $person, string $endDate, string $baseUrl, string $access_key): void
+function sendMailInternal(array $person, string $endDate, string $access_key): void
 {
     $formattedDate = date("d.m.Y H:i", strtotime($endDate));
 
     $to = $person["email"];
 
-    $url = "$baseUrl/contract?email=$to&accessKey=$access_key";
+    $url = "https://reisinger.pictures/contract?email=$to&accessKey=$access_key";
 
     sendMail(
         "contracts@reisinger.pictures",

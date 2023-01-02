@@ -15,7 +15,6 @@ $email = strtolower(trim($headers["Email"]));
 $access_key = trim($headers["Accesskey"]);
 
 $action = strtoupper(trim($json["action"]));
-$base_url = trim($json["baseUrl"]);
 
 $stmt = $pdo->prepare("
 SELECT ca.contract_id, ci.hash_value
@@ -53,10 +52,12 @@ $insert->execute();
 
 $pdo->commit();
 
+$url = "https://reisinger.pictures/contract?email=$email&accessKey=$access_key";
+
 sendMail("contracts@reisinger.pictures", $email, null, $action . " - Aktion bei deinem Vertrag", "
 <h1>Zugriff zu deinem Vertrag</h1>
  <p>
-  Bitte benutze den folgenden Link, um zu deinem Vertrag zu kommen: <a href='$base_url'>Link zum Vertrag</a>
+  Bitte benutze den folgenden Link, um zu deinem Vertrag zu kommen: <a href='$url'>Link zum Vertrag</a>
 </p>
 <p>
 Hash: <span style='overflow-x: auto'>$hash_value</span>
