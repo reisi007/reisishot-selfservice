@@ -60,6 +60,6 @@ sendMail("contracts@reisinger.pictures", $email, null, $action . " - Aktion bei 
   Bitte benutze den folgenden Link, um zu deinem Vertrag zu kommen: <a href='$url'>Link zum Vertrag</a>
 </p>
 <p>
-Hash: <span style='overflow-x: auto'>$hash_value</span>
+Hash: <span style='word-wrap: anywhere'>$hash_value</span>
 </p>
 ");

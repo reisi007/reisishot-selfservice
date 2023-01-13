@@ -1,6 +1,7 @@
 <?php
 include_once "../header/required.php";
 include_once "../utils/sql.php";
+include_once "../utils/mail.php";
 
 header('Content-Type: text/plain');
 // body

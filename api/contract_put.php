@@ -168,13 +168,9 @@ function sendMailInternal(array $person, string $endDate, string $access_key): v
         "contracts@reisinger.pictures",
         $to, null,
         "Zugriff zu deinem Vertrag",
-        "
-<h1>Zugriff zu deinem Vertrag</h1>
- <p>
-  Bitte benutze den folgenden Link, um zu deinem Vertrag zu kommen: <a href='$url'>Link zum Vertrag</a> ($url)
-</p><p>
-Der Vertrag kann bis spätestens $formattedDate unterschrieben werden!
-</p>
-"
+        "<h1>Zugriff zu deinem Vertrag</h1>" .
+        p("Bitte benutze den folgenden Link, um zu deinem Vertrag zu kommen:")
+        . button($url, "Link zum Vertrag")
+        . p("Der Vertrag kann bis spätestens $formattedDate unterschrieben werden!")
     );
 }

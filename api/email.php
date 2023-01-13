@@ -1,39 +1,26 @@
 <?php
 include_once '../header/required.php';
+include_once '../utils/mail.php';
 
 $inputJSON = file_get_contents('php://input');
 $inputJSON = json_decode($inputJSON, true);
-if (sendMail($inputJSON)) {
+if (prepareEmail($inputJSON)) {
     http_response_code(204);
 } else {
     http_response_code(555);
 }
 
-function sendMail($inputJSON)
+function prepareEmail($inputJSON)
 {
     $from = safeString($inputJSON["email"]);
     $betreff = safeString($inputJSON["subject"]);
-    $to = "florian@reisinger.pictures";
-    // To send HTML mail, the Content-type header must be set
-    $headers = 'MIME-Version: 1.0' . "\r\n";
-    $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-    // Create email headers
-    $headers .= 'From: ' . $from . "\r\n" .
-        'Reply-To: ' . $from . "\r\n" .
-        'X-Mailer: PHP/' . phpversion();
-
-    $message = '<html lang="de"><body>';
-    $message .= '<h1>Neue Nachricht vom Kontaktformular!</h1>';
+    $message = '<h1>Neue Nachricht vom Kontaktformular!</h1>';
     foreach ($inputJSON as $key => $value) {
-        $message .= "<b>" . safeString($key) . "</b><br/>"
+        $message .= '<b>' . safeString($key) . '</b><br/>'
             . safeString($value) . "<br/>\n";
     }
-    $message .= '</body></html>';
-    if (empty($from) || empty($betreff) || !str_contains($from, "@")) {
-        print_r($inputJSON);
-    } else {
-        return mail($to, "[Kontaktformular] Neue Anfrage: " . $betreff, $message, $headers);
-    }
+
+    return sendMail($from, "florian@reisinger.pictures", null, $betreff, $message);
 }
 
 function safeString(string $string)

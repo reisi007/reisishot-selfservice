@@ -27,8 +27,7 @@ if ($reset) {
     if ($statement->rowCount() != 1) {
         throw new Exception("Could not update access key");
     }
-}
-else {
+} else {
     $statement = $pdo->prepare("SELECT access_key FROM waitlist_person WHERE email = :email");
     $statement->bindParam("email", $email);
     $statement->execute();
@@ -47,7 +46,7 @@ $url = "https://service.reisinger.pictures/waitlist/$email/$access_key";
 
 sendMail("waitlist@reisinger.pictures", $email, "florian@reisinger.pictures", "Zugang zur Warteliste", "
 <h1>Zugang zur Warteliste</h1>
-" . insertMainLink($url, 'Bitte klicke hier, um dich für ein Shooting anzumelden') . "
+" . button($url, 'Bitte klicke hier, um dich für ein Shooting anzumelden') . "
 <p>Wenn du hier keinen Link siehst, schick mir bitte eine Nachricht und ich lasse dir den Link per SMS zukommen</p>
 ");
 
