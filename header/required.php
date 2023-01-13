@@ -7,7 +7,7 @@ include_once '_cors.php';
 function myExceptionHandler($e)
 {
     error_log($e);
-    http_response_code(500);
+    header("HTTP/1.0 500 An internal server error has been occurred. Please try again later.");
     if (filter_var(ini_get('display_errors'), FILTER_VALIDATE_BOOLEAN)) {
         echo $e;
     } else {
