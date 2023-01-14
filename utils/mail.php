@@ -19,7 +19,7 @@ function sendMail(string $from, string $to, string|null $bcc, string $subject, s
             'Bcc: ' . $bcc;
     }
 
-    $message = "<!DOCTYPE html><html lang='de'><head><title>" . $subject . "</title></head><body style='background: " . primary . ';color: ' . onPrimary . "'>";
+    $message = "<!DOCTYPE html><html lang='de'><head><title>" . $subject . "</title></head><body style='background: " . primary . ';color: ' . onPrimary . ";border-bottom: solid 40px " . primary . "'>";
     $message .= '<div style="text-align: center"><img style="margin: 0 auto; border-radius: 1rem; display: inline-block; object-fit: scale-down" src="https://reisinger.pictures/apple-touch-icon.png"  alt="Florian Reisinger Photography Logo"/></div>';
     $message .= $body . '</body></html>';
 
