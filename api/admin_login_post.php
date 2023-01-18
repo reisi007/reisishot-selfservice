@@ -16,14 +16,28 @@ if (!checkIsAdmin($pdo, $user, $pwd)) {
     exit();
 }
 
-$uuid = uuid();
+include_once "../vendor/autoload.php";
+include_once "../config/jwt.conf.php";
 
-$statement = $pdo->prepare("INSERT INTO permission_session(user_id, hash, last_used) VALUE (:user,:hash,CURRENT_TIMESTAMP)");
-$statement->bindValue("user", $user);
-$statement->bindValue("hash", $uuid);
-$statement->execute();
-$pdo->commit();
+use Firebase\JWT\JWT;
 
+header('Content-Type: text/plain');
 
-include_once "../header/json.php";
-echo json_encode(array("user" => $user, "hash" => $uuid));
+$issuedAt = new DateTimeImmutable();
+$expired = $issuedAt->modify("+14 days");
+
+$payload = [
+    'iss' => 'https://api.reisinger.pictures',
+    'aud' => 'https://reisinger.pictures',
+    'iat' => $issuedAt->getTimestamp(),
+    'nbf' => $issuedAt->getTimestamp(),
+    "exp" => $expired->getTimestamp()
+];
+
+/**
+ * IMPORTANT:
+ * You must specify supported algorithms for your application. See
+ * https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40
+ * for a list of spec-compliant algorithms.
+ */
+echo JWT::encode($payload, jwt_key, 'HS512');
