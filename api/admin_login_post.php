@@ -3,17 +3,22 @@ include_once "../header/required.php";
 include_once "../utils/sql.php";
 include_once "../utils/security.php";
 include_once "../utils/uuid.php";
+include_once "../utils/authed.php";
 
-$headers = getallheaders();
-$user = trim($headers['Email']);
-$pwd = trim($headers['Accesskey']);
+$isAuthed = isAuthed();
 
-$pdo = createMysqlConnection();
+if (!$isAuthed) {
+    $headers = getallheaders();
+    $user = trim($headers['Email']);
+    $pwd = trim($headers['Accesskey']);
 
-// Check if user is known
-if (!checkIsAdmin($pdo, $user, $pwd)) {
-    header("HTTP/1.1 401 Unauthorized");
-    exit();
+    $pdo = createMysqlConnection();
+
+    // Check if user is known
+    if (!checkIsAdmin($pdo, $user, $pwd)) {
+        header("HTTP/1.1 401 Unauthorized");
+        exit();
+    }
 }
 
 include_once "../vendor/autoload.php";
