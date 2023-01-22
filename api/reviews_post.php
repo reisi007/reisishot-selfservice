@@ -84,8 +84,8 @@ VALUES (:access_key, :email, :rating, :name, :review_private, :review_public)
 
     $body = "<h1>$name ($email) - $starCount ★ <small>$rating / 100</small></h1>"
         . button("https://reisinger.pictures/admin/reviews", "Link zur Bewertung")
-        . p($review_public || "")
-        . p($review_private || "");
+        . p($review_public ?? "")
+        . p($review_private ?? "");
 
     sendMail(
         "reviews@reisinger.pictures",
