@@ -9,7 +9,7 @@ $pdo = createMysqlConnection();
 
 $result = array();
 
-$unused = $pdo->prepare("SELECT ber.id AS `rawId`, text, value, expire_at AS expireat
+$unused = $pdo->prepare("SELECT ber.id AS `rawId`, text, value, expire_at AS `expireAt`
 FROM bonuscard_entries_raw ber
          JOIN bonuscard b ON b.id = ber.bonus
 WHERE b.id = :id
@@ -25,7 +25,7 @@ $unused->execute();
 $result["unused"] = $unused->fetchAll(PDO::FETCH_ASSOC);
 
 
-$used = $pdo->prepare('SELECT ber.id AS rawid, text, value, expire_at AS expireat
+$used = $pdo->prepare('SELECT ber.id AS rawid, text, value, expire_at AS `expireAt`
 FROM bonuscard_entries_raw ber
          JOIN bonuscard b ON b.id = ber.bonus
 WHERE b.id = :id
