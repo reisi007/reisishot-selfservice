@@ -20,7 +20,6 @@ jobs:
                     exclude: |
                         **/.git*
                         **/.git*/**
-                        *
                         .idea/**
                         .github/**
                         README.md
@@ -28,3 +27,8 @@ jobs:
                         sql/**
                         mailoutput/**
                         tailwind/**
+                        .*
+                        *.http
+                        composer.json
+                        composer.lock
+                        *.md
