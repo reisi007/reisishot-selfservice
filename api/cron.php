@@ -13,14 +13,6 @@ println("=============");
 $pdo = createMysqlConnection();
 $pdo->beginTransaction();
 
-// Delete unused sessions
-(function () use ($pdo) {
-    $deleted_sessions = $pdo->exec("DELETE FROM permission_session WHERE last_used < (CURRENT_TIMESTAMP - INTERVAL 10 DAY ) ");
-
-    println();
-    println("Deleted $deleted_sessions sessions....");
-})();
-
 // Send birthday reminder emails
 (function () use ($pdo) {
     $birthdayQuery = $pdo->query("SELECT firstname, lastname, email, YEAR(birthday) AS birthday

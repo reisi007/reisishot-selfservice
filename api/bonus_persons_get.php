@@ -7,10 +7,8 @@ SELECT id,
        firstname AS 'firstName',
        lastname  AS 'lastName',
        birthday,
-       availability,
-       phone_number,
-       website,
-       access_key
-FROM waitlist_person
-ORDER BY firstname, lastname, email, birthday DESC 
+       tel,
+       pin,
+       sum AS 'total'
+FROM bonuscard_summed wp
 ");
