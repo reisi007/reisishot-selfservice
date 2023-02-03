@@ -14,7 +14,7 @@ FROM bonuscard_entries_raw ber
          JOIN bonuscard b ON b.id = ber.bonus
 WHERE b.id = :id
   AND b.pin = :pin
-  AND ber.used = 0
+  AND ber.used IS NULL
 ORDER BY expire_at ");
 
 $unused->bindParam("id", $id);
@@ -30,7 +30,7 @@ FROM bonuscard_entries_raw ber
          JOIN bonuscard b ON b.id = ber.bonus
 WHERE b.id = :id
   AND b.pin = :pin
-  AND ber.used = 1
+  AND ber.used IS NOT NULL
 ORDER BY expire_at ');
 
 

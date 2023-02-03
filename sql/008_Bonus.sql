@@ -14,19 +14,16 @@ CREATE TABLE bonuscard
 
 CREATE TABLE bonuscard_entries_raw
 (
-    id        BIGINT               NOT NULL
-        PRIMARY KEY AUTO_INCREMENT,
-    bonus     BIGINT               NOT NULL,
-    text      TEXT                 NOT NULL,
-    value     DECIMAL(4, 2)        NOT NULL,
-    expire_at DATE                 NOT NULL,
-    used      TINYINT(1) DEFAULT 0 NOT NULL,
+    id        BIGINT AUTO_INCREMENT PRIMARY KEY,
+    bonus     BIGINT        NOT NULL,
+    text      TEXT          NOT NULL,
+    value     DECIMAL(5, 2) NOT NULL,
+    expire_at DATE          NOT NULL,
+    used      DATE          NOT NULL,
     CONSTRAINT bonuscard_entries_raw_bonuscard_id_fk
         FOREIGN KEY (bonus) REFERENCES bonuscard (id)
             ON UPDATE CASCADE ON DELETE CASCADE
 );
-
-
 
 CREATE OR REPLACE VIEW bonuscard_summed AS
 SELECT b.*, IFNULL(ber.sum, 0) AS sum
@@ -35,8 +32,7 @@ FROM bonuscard b
                            SUM(value
                                ) AS sum
                     FROM bonuscard_entries_raw
-                    WHERE expire_at >= NOW(
-                        )
-                      AND used = FALSE
+                    WHERE expire_at > NOW()
+                      AND used IS NULL
                     GROUP BY bonus) ber
                    ON b.id = ber.bonus

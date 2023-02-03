@@ -13,8 +13,8 @@ $pdo->beginTransaction();
 
 $insert = $pdo->prepare("
 UPDATE bonuscard_entries_raw
-SET used = 1
-WHERE id = :id AND used = 0
+SET used = NOW()
+WHERE id = :id AND used IS NULL AND expire_at > NOW()
 ");
 
 $insert->bindParam('id', $id);
