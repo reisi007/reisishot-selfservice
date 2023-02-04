@@ -25,7 +25,7 @@ $unused->execute();
 $result["unused"] = $unused->fetchAll(PDO::FETCH_ASSOC);
 
 
-$used = $pdo->prepare('SELECT ber.id AS rawid, text, value, expire_at AS `expireAt`
+$used = $pdo->prepare('SELECT ber.id AS rawid, text, value, expire_at AS `expireAt`, used
 FROM bonuscard_entries_raw ber
          JOIN bonuscard b ON b.id = ber.bonus
 WHERE b.id = :id
